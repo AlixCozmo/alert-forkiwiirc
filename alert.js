@@ -1,6 +1,7 @@
-var messagestring // used to hold the message
+
 
 function GrabMessage() {
+    let messagestring;
     console.log("GrabMessage Started!");
     for (let messageloop = 0; messageloop < 10; messageloop++) {
         console.log("messageloop: " + messageloop);
