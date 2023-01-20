@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "alert",
+  "description": "alert",
+  "version": "1.0",
+  "author": "DavidByggerBilar",
+  "homepage_url": "https://github.com/DavidByggerBilar/alert",
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.kiwi.fuelrats.com/*"],
+      "js": ["./alert.js"]
+    }
+  ]
+}
