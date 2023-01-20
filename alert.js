@@ -21,7 +21,7 @@ function GrabMessage() {
             console.log("messageloop: " + messageloop);
         }
 
-        }
+    }
 
 }
 
