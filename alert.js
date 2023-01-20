@@ -10,12 +10,12 @@ function GrabMessage() {
         messagestring = window.kiwi.state.getBufferByName(1, "#ratchat").messagesObj.messages[messageloop+240].message;
         messagetime = window.kiwi.state.getBufferByName(1, "#ratchat").messagesObj.messages[messageloop+240].time;
         messagestring = messagestring.toLower();
-        if (messagestring.includes("ratsignal" && lasttime != messagetime)) {
+        if (messagestring.includes("ratsignal" && lasttime < messagetime)) {
             lastrat = messagestring;
             console.log("RAT!");
             console.log("messageloop: " + messageloop);
         }
-        if (messagestring.includes("hatsignal" && lasttime != messagetime)) {
+        if (messagestring.includes("hatsignal" && lasttime < messagetime)) {
             lasthat = messagestring;
             console.log("HAT!");
             console.log("messageloop: " + messageloop);
