@@ -6,21 +6,57 @@ var messagetimechat = 0;
 var messagetimefuel = 0;
 var messagelengthchat;
 var messagelengthfuel;
+const activechannels = [];
 
 
 setInterval(10000);
 function GrabMessage() {
     console.log("GrabMessage Started!");
+    GrabChannels();
+    if (activechannels.includes("#ratchat")) {
         messagelengthchat = InjectLengthScript("#ratchat");
-        messagelengthfuel = InjectLengthScript("#fuelrats");
         messagestringchat = InjectScript("#ratchat", messagelengthchat, "message");
-        messagestringfuel = InjectScript("#fuelrats", messagelengthfuel, "message");
         messagetimechat = InjectScript("#ratchat", messagelengthchat, "time");
-        messagetimefuel = InjectScript("#fuelrats", messagelengthfuel, "time");
-        console.log("waiting 5 seconds..");
-        setTimeout(5000);
-        messagestringchat = messagestringchat.toLowerCase();
-        messagestringfuel = messagestringfuel.toLowerCase();
+    }
+    if (activechannels.includes("#fuelrats")) {
+        messagelengthfuel = InjectLengthScript("#fuelrats");
+        messagestringfuel = InjectScript("#fuelrats", messagelengthfuel, "message");
+        messagetimefuel = InjectScript("#fuelrats", messagelengthfuel, "time"); 
+    }
+    console.log("waiting 5 seconds..");
+    setTimeout(5000);
+    messagestringchat = messagestringchat.toLowerCase();
+    messagestringfuel = messagestringfuel.toLowerCase();
+}
+
+function GrabChannels() {
+    let element=document.getElementsByClassName("kiwi-statebrowser-channel-name");
+    let text = "";
+    let words = "";
+    for (let elementnumber = 0; elementnumber < element.length; elementnumber++) {
+        text = element[elementnumber].innerText;
+        words=text.split(" ");
+        for(let wordnumber=0; wordnumber < words.length; wordnumber++) {
+            if (words[wordnumber].startsWith("#")) {
+                if (words[wordnumber].endsWith("a") || words[wordnumber].endsWith("b") || words[wordnumber].endsWith("c") 
+                || words[wordnumber].endsWith("d") || words[wordnumber].endsWith("e") || words[wordnumber].endsWith("f") 
+                || words[wordnumber].endsWith("g") || words[wordnumber].endsWith("h") || words[wordnumber].endsWith("i") 
+                || words[wordnumber].endsWith("j") || words[wordnumber].endsWith("k") || words[wordnumber].endsWith("l")
+                || words[wordnumber].endsWith("m") || words[wordnumber].endsWith("n") || words[wordnumber].endsWith("o") 
+                || words[wordnumber].endsWith("p") || words[wordnumber].endsWith("q") || words[wordnumber].endsWith("r")
+                || words[wordnumber].endsWith("s") || words[wordnumber].endsWith("t") || words[wordnumber].endsWith("u")
+                || words[wordnumber].endsWith("v") || words[wordnumber].endsWith("w") || words[wordnumber].endsWith("x")
+                || words[wordnumber].endsWith("y") || words[wordnumber].endsWith("z")) 
+                {
+                    activechannels.length = activechannels.length++;
+                    activechannels.push(words[wordnumber]);
+                    console.log("active channels: " + activechannels);
+                    
+                }
+            } 
+        }
+
+    }
 }
 
 function InjectLengthScript(Channel) {
