@@ -106,7 +106,6 @@ function InjectScript(Channel, length, type) {
 }
 
 function CheckMessage() {
-        // RATCHAT
         console.log("checking if string matches..");
         if (messagestringchat.includes("ratsignal" && lasttimechat != messagetimechat)) {
             lasttimechat = messagetimechat;
@@ -128,6 +127,13 @@ function CheckMessage() {
             console.log("joined!");
             PlaySound(4);
         }
+
+        if (messagestringfuel.includes("code red") && messagestringfuel.includes("ratsignal") && lasttimefuel != messagetimefuel) {
+            lasttimefuel = messagetimechat;
+            console.log("CODE RED!");
+            PlaySound(3);
+        }
+        /*
         
         // FUELRAT
         if (messagestringfuel.includes("ratsignal" && lasttimefuel != messagetimefuel)) {
@@ -145,6 +151,7 @@ function CheckMessage() {
             console.log("CODE RED!");
             PlaySound(3);
         }
+        */
         
     }
 
