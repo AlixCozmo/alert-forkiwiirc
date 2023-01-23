@@ -24,8 +24,8 @@ function GrabMessage() {
         messagestringfuel = InjectScript("#fuelrats", messagelengthfuel, "message");
         messagetimefuel = InjectScript("#fuelrats", messagelengthfuel, "time"); 
     }
-    console.log("waiting 5 seconds..");
-    setTimeout(5000);
+    //console.log("waiting 5 seconds..");
+    setTimeout(100);
     messagestringchat = messagestringchat.toLowerCase();
     messagestringfuel = messagestringfuel.toLowerCase();
 }
@@ -106,7 +106,7 @@ function InjectScript(Channel, length, type) {
 }
 
 function CheckMessage() {
-        console.log("checking if string matches..");
+        //console.log("checking if string matches..");
         if (messagestringchat.includes("ratsignal" && lasttimechat != messagetimechat)) {
             lasttimechat = messagetimechat;
             console.log("RAT!");
@@ -126,12 +126,6 @@ function CheckMessage() {
             lasttimechat = messagetimechat;
             console.log("joined!");
             PlaySound(4);
-        }
-    
-        if (messagestringfuel.includes("ratsignal") && lasttimefuel != messagetimefuel) {
-            lasttimefuel = messagetimechat;
-            console.log("CODE RED!");
-            PlaySound(3);
         }
 
         if (messagestringfuel.includes("code red") && messagestringfuel.includes("ratsignal") && lasttimefuel != messagetimefuel) {
@@ -194,4 +188,4 @@ function PlaySound(snumber) {
         audio4.play(); 
     }
 }
-setInterval(MessageHandler, 1000);
+setInterval(MessageHandler, 100);
