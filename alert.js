@@ -81,7 +81,7 @@ function CheckMessage() {
             PlaySound(4);
         }
         
-         FUELRAT
+        // FUELRAT
         if (messagestringfuel.includes("ratsignal" && lasttimefuel != messagetimefuel)) {
             lasttimefuel = messagetimechat;
             console.log("RAT!");
@@ -92,7 +92,7 @@ function CheckMessage() {
             console.log("HAT!");
             PlaySound(2);
         }
-        if (messagestringfuel.includes("Code Red" && lasttimefuel != messagetimefuel)) {
+        if (messagestringfuel.includes("code red" && lasttimefuel != messagetimefuel)) {
             lasttimefuel = messagetimechat;
             console.log("CODE RED!");
             PlaySound(3);
