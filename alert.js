@@ -89,7 +89,7 @@ function InjectScript(Channel, length, type) {
     let script = document.createElement('script');
     let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].TYPE; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
     string = string.replace('CHANNEL', Channel);
-    string = string.replace('LENGTH', length-1);
+    string = string.replace('LENGTH', length);
     string = string.replace('TYPE', type);
     script.textContent = string;
     (document.head||document.documentElement).appendChild(script);
