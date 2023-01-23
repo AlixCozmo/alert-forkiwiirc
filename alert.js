@@ -13,10 +13,10 @@ function GrabMessage() {
     console.log("GrabMessage Started!");
         messagelengthchat = InjectLengthScript("#ratchat");
         messagelengthfuel = InjectLengthScript("#fuelrats");
-        messagestringchat = InjectScript("#ratchat", messagelengthchat);
-        messagestringfuel = InjectScript("#fuelrats", messagelengthfuel);
-        messagetimechat = InjectScript("#ratchat", messagelengthchat);
-        messagetimefuel = InjectScript("#fuelrats", messagelengthfuel);
+        messagestringchat = InjectScript("#ratchat", messagelengthchat, "message");
+        messagestringfuel = InjectScript("#fuelrats", messagelengthfuel, "message");
+        messagetimechat = InjectScript("#ratchat", messagelengthchat, "time");
+        messagetimefuel = InjectScript("#fuelrats", messagelengthfuel, "time");
         console.log("waiting 5 seconds..");
         setTimeout(5000);
         messagestringchat = messagestringchat.toLowerCase();
@@ -40,12 +40,13 @@ function InjectLengthScript(Channel) {
     return datareturn;
 }
 
-function InjectScript(Channel, length) {
+function InjectScript(Channel, length, type) {
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].message; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
+    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].TYPE; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
     string = string.replace('CHANNEL', Channel);
     string = string.replace('LENGTH', length-1);
+    string = string.replace('TYPE', type);
     script.textContent = string;
     (document.head||document.documentElement).appendChild(script);
     script.parentNode.removeChild(script);
