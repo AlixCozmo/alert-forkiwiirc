@@ -53,6 +53,9 @@ function InjectScript(Channel, length, type) {
     while (datareturn == null) {
         document.addEventListener('dataevent', function (event) {
             datareturn = event.detail;
+            if (type == "time") {
+                datareturn = parseInt(datareturn);
+            }
         });
     }   
     return datareturn;
