@@ -127,6 +127,12 @@ function CheckMessage() {
             console.log("joined!");
             PlaySound(4);
         }
+    
+        if (messagestringfuel.includes("ratsignal") && lasttimefuel != messagetimefuel) {
+            lasttimefuel = messagetimechat;
+            console.log("CODE RED!");
+            PlaySound(3);
+        }
 
         if (messagestringfuel.includes("code red") && messagestringfuel.includes("ratsignal") && lasttimefuel != messagetimefuel) {
             lasttimefuel = messagetimechat;
