@@ -11,23 +11,57 @@ const messagelength = [];
 const messagetime = [];
 
 setInterval(10000);
-function GrabMessage() {
+function MessageHandler() {
+    let returnvalue;
+    let lengthfuel;
+    let lengthchat;
     console.log("GrabMessage Started!");
-    GrabChannels();
-    if (activechannels.includes("#ratchat")) {
-        messagelengthchat = InjectLengthScript("#ratchat");
-        messagestringchat = InjectScript("#ratchat", messagelengthchat, "message");
-        messagetimechat = InjectScript("#ratchat", messagelengthchat, "time");
-    }
-    if (activechannels.includes("#fuelrats")) {
-        messagelengthfuel = InjectLengthScript("#fuelrats");
-        messagestringfuel = InjectScript("#fuelrats", messagelengthfuel, "message");
-        messagetimefuel = InjectScript("#fuelrats", messagelengthfuel, "time"); 
-    }
+    //GrabChannels();
+    GrabMessage(false, 0, 0);
     //console.log("waiting 5 seconds..");
-    setTimeout(100);
+    setTimeout(10000);
     messagestringchat = messagestringchat.toLowerCase();
     messagestringfuel = messagestringfuel.toLowerCase();
+    returnvalue = CheckMessage();
+    if (returnvalue == 0) {
+        lengthchat = messagelengthchat;
+        lengthfuel = messagelengthfuel;
+        for (let x = 0; x < 5; x++) {
+            lengthchat = lengthchat--;
+            lengthfuel = lengthfuel--;
+            GrabMessage(true, lengthchat, lengthfuel);
+        }
+    }
+    returnvalue = CheckMessage();
+}
+
+function GrabMessage(lengthbool, lengthsecondarychat, lengthsecondaryfuel) { // if lengthbool is true, this function will use the provided number from the parameter instead of length.
+    if (lengthbool == false) {
+        if (activechannels.includes("#ratchat")) {
+            messagelengthchat = InjectLengthScript("#ratchat");
+            messagestringchat = InjectScript("#ratchat", messagelengthchat, "message");
+            messagetimechat = InjectScript("#ratchat", messagelengthchat, "time");
+        }
+        if (activechannels.includes("#fuelrats")) {
+            messagelengthfuel = InjectLengthScript("#fuelrats");
+            messagestringfuel = InjectScript("#fuelrats", messagelengthfuel, "message");
+            messagetimefuel = InjectScript("#fuelrats", messagelengthfuel, "time");
+        }
+        return;
+    }
+    if (lengthbool == true) {
+        if (activechannels.includes("#ratchat")) {
+            messagelengthchat = InjectLengthScript("#ratchat");
+            messagestringchat = InjectScript("#ratchat", lengthsecondarychat, "message");
+            messagetimechat = InjectScript("#ratchat", lengthsecondarychat, "time");
+        }
+        if (activechannels.includes("#fuelrats")) {
+            messagelengthfuel = InjectLengthScript("#fuelrats");
+            messagestringfuel = InjectScript("#fuelrats", lengthsecondaryfuel, "message");
+            messagetimefuel = InjectScript("#fuelrats", lengthsecondaryfuel, "time");
+        }
+        return;
+    }
 }
 
 function AddVariables() {
@@ -35,6 +69,7 @@ function AddVariables() {
         messagelength.length = messagelength.length++;
         messagelength.push(words[wordnumber]);
     }
+    return;
 }
 
 function GrabChannels() {
@@ -59,6 +94,7 @@ function GrabChannels() {
                     activechannels.length = activechannels.length++;
                     activechannels.push(words[wordnumber]);
                     console.log("active channels: " + activechannels);
+                    return;
                     
                 }
             } 
@@ -74,13 +110,11 @@ function InjectLengthScript(Channel) {
     string = string.replace('CHANNEL', Channel);
     script.textContent = string;
     (document.head||document.documentElement).appendChild(script);
-    script.parentNode.removeChild(script);
-    while (datareturn == null) {
         document.addEventListener('dataevent', function (event) {
             datareturn = event.detail;
             datareturn = parseInt(datareturn);
         });
-    }
+    script.parentNode.removeChild(script);
     return datareturn;
 }
 
@@ -93,45 +127,49 @@ function InjectScript(Channel, length, type) {
     string = string.replace('TYPE', type);
     script.textContent = string;
     (document.head||document.documentElement).appendChild(script);
-    script.parentNode.removeChild(script);
-    while (datareturn == null) {
         document.addEventListener('dataevent', function (event) {
             datareturn = event.detail;
             if (type == "time") {
                 datareturn = parseInt(datareturn);
             }
         });
-    }   
+    setTimeout(100);
+    script.parentNode.removeChild(script);   
     return datareturn;
 }
 
-function CheckMessage() {
+function CheckMessage() { // Returns 1 if successful, 0 if not.
         //console.log("checking if string matches..");
         if (messagestringchat.includes("ratsignal" && lasttimechat != messagetimechat)) {
             lasttimechat = messagetimechat;
             console.log("RAT!");
             PlaySound(1);
+            return 1;
         }
         if (messagestringchat.includes("hatsignal" && lasttimechat != messagetimechat)) {
             lasttimechat = messagetimechat;
             console.log("HAT!");
             PlaySound(2);
+            return 1;
         }
         if (messagestringchat.includes("test" && lasttimechat != messagetimechat)) {
             lasttimechat = messagetimechat;
             console.log("test!");
             PlaySound(4);
+            return 1;
         }
         if (messagestringchat.includes("joined") && lasttimechat != messagetimechat) {
             lasttimechat = messagetimechat;
             console.log("joined!");
             PlaySound(4);
+            return 1;
         }
 
         if (messagestringfuel.includes("code red") && messagestringfuel.includes("ratsignal") && lasttimefuel != messagetimefuel) {
             lasttimefuel = messagetimechat;
             console.log("CODE RED!");
             PlaySound(3);
+            return 1;
         }
         /*
         
@@ -153,13 +191,15 @@ function CheckMessage() {
         }
         */
         
+        return 0;
     }
 
-function MessageHandler() {
+/*function MessageHandler() {
     GrabMessage();
     CheckMessage();
     //ResetVar();
 }
+*/
 
     
 
@@ -188,4 +228,4 @@ function PlaySound(snumber) {
         audio4.play(); 
     }
 }
-setInterval(MessageHandler, 100);
+setInterval(MessageHandler, 1000);
