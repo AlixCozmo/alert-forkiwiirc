@@ -11,78 +11,50 @@ var messagelengthfuel;
 setInterval(10000);
 function GrabMessage() {
     console.log("GrabMessage Started!");
-        var script = document.createElement('script');
-        var script2 = document.createElement('script');
-        var script3 = document.createElement('script');
-        var script4 = document.createElement('script');
-        var script5 = document.createElement('script');
-        var script6 = document.createElement('script');
-        var string = 'var messagestringfuel = window.kiwi.state.getBufferByName(1, "#fuelrats").messagesObj.messages[LENGTH].message; document.dispatchEvent(new CustomEvent("msf", {detail: messagestringfuel}));';
-        var string3 = 'var messagestringchat = window.kiwi.state.getBufferByName(1, "#ratchat").messagesObj.messages[LENGTH].message; document.dispatchEvent(new CustomEvent("msc", {detail: messagestringchat}));'; // messagestringchat
-        var string2 = 'var messagetimefuel = window.kiwi.state.getBufferByName(1, "#fuelrats").messagesObj.messages[LENGTH].time; document.dispatchEvent(new CustomEvent("mtf", {detail: messagetimefuel}));';
-        var string4 = 'var messagetimechat = window.kiwi.state.getBufferByName(1, "#ratchat").messagesObj.messages[LENGTH].time; document.dispatchEvent(new CustomEvent("mtc", {detail: messagetimechat}));'; // messagetimechat
-        var string5 = 'var messagelengthchat = window.kiwi.state.getBufferByName(1, "#ratchat").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("mlc", {detail: messagelengthchat}));' // messagelengthchat
-        var string6 = 'var messagelengthfuel = window.kiwi.state.getBufferByName(1, "#fuelrats").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("mlf", {detail: messagelengthfuel}));';
-        script5.textContent = string5;
-        script6.textContent = string6;
-        (document.head||document.documentElement).appendChild(script5);
-        script5.parentNode.removeChild(script5);
-        (document.head||document.documentElement).appendChild(script6);
-        script6.parentNode.removeChild(script6);
-        document.addEventListener('mlc', function (event) {
-            messagelengthchat = event.detail;
-        
-            // Do something with you data from CRX
-        });
-        document.addEventListener('mlf', function (event) {
-            messagelengthfuel = event.detail;
-        
-            // Do something with you data from CRX
-        });
-        string = string.replace('LENGTH', messagelengthfuel-1);
-        string2 = string2.replace('LENGTH', messagelengthfuel-1);
-        string3 = string3.replace('LENGTH', messagelengthchat-1);
-        string4 = string4.replace('LENGTH', messagelengthchat-1);
-        script3.textContent = string3;
-        script4.textContent = string4;
-        script2.textContent = string2;
-        script.textContent = string;
-        (document.head||document.documentElement).appendChild(script3);
-        script3.parentNode.removeChild(script3);
-        (document.head||document.documentElement).appendChild(script4);
-        script4.parentNode.removeChild(script4);
-        (document.head||document.documentElement).appendChild(script);
-        script.parentNode.removeChild(script);
-        (document.head||document.documentElement).appendChild(script2);
-        script2.parentNode.removeChild(script2);
-        document.addEventListener('msc', function (event) {
-            messagestringchat = event.detail;
-        
-            // Do something with you data from CRX
-        });
-        document.addEventListener('mtc', function (event) {
-            messagetimechat = event.detail;
-        
-            // Do something with you data from CRX
-        });
-        document.addEventListener('msf', function (event) {
-            messagestringfuel = event.detail;
-        
-            // Do something with you data from CRX
-        });
-        document.addEventListener('mtf', function (event) {
-            messagetimefuel = event.detail;
-        
-            // Do something with you data from CRX
-        });
-        messagelengthchat = parseInt(messagelengthchat);
-        messagelengthfuel = parseInt(messagelengthfuel);
+        messagelengthchat = InjectLengthScript("#ratchat");
+        messagelengthfuel = InjectLengthScript("#fuelrats");
+        messagestringchat = InjectScript("#ratchat", messagelengthchat);
+        messagestringfuel = InjectScript("#fuelrats", messagelengthfuel);
+        messagetimechat = InjectScript("#ratchat", messagelengthchat);
+        messagetimefuel = InjectScript("#fuelrats", messagelengthfuel);
         console.log("waiting 5 seconds..");
         setTimeout(5000);
         messagestringchat = messagestringchat.toLowerCase();
         messagestringfuel = messagestringfuel.toLowerCase();
+}
 
+function InjectLengthScript(Channel) {
+    let datareturn;
+    let script = document.createElement('script');
+    let string = 'var length = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
+    string = string.replace('CHANNEL', Channel);
+    script.textContent = string;
+    (document.head||document.documentElement).appendChild(script);
+    script.parentNode.removeChild(script);
+    while (datareturn == null) {
+        document.addEventListener('dataevent', function (event) {
+            datareturn = event.detail;
+            datareturn = parseInt(datareturn);
+        });
+    }
+    return datareturn;
+}
 
+function InjectScript(Channel, length) {
+    let datareturn;
+    let script = document.createElement('script');
+    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].message; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
+    string = string.replace('CHANNEL', Channel);
+    string = string.replace('LENGTH', length-1);
+    script.textContent = string;
+    (document.head||document.documentElement).appendChild(script);
+    script.parentNode.removeChild(script);
+    while (datareturn == null) {
+        document.addEventListener('dataevent', function (event) {
+            datareturn = event.detail;
+        });
+    }   
+    return datareturn;
 }
 
 function CheckMessage() {
