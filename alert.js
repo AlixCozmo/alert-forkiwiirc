@@ -7,7 +7,8 @@ var messagetimefuel = 0;
 var messagelengthchat;
 var messagelengthfuel;
 const activechannels = [];
-
+const messagelength = [];
+const messagetime = [];
 
 setInterval(10000);
 function GrabMessage() {
@@ -27,6 +28,13 @@ function GrabMessage() {
     setTimeout(5000);
     messagestringchat = messagestringchat.toLowerCase();
     messagestringfuel = messagestringfuel.toLowerCase();
+}
+
+function AddVariables() {
+    for (let x = 0; x < activechannels.length; x++) {
+        messagelength.length = messagelength.length++;
+        messagelength.push(words[wordnumber]);
+    }
 }
 
 function GrabChannels() {
