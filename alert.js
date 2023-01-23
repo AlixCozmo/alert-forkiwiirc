@@ -172,20 +172,20 @@ function ResetVar() {
 
 function PlaySound(snumber) {
     if (snumber == 1) { // ratsignal
-    var audio = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_ratsignal.wav?version=1&modificationDate=1488766734831&api=v2');
-    audio.play(); 
+    var audio1 = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_ratsignal.wav?version=1&modificationDate=1488766734831&api=v2');
+    audio1.play(); 
     }
     if (snumber == 2) { // hatsignal
-        var audio = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_hatsignal.wav?version=1&modificationDate=1488767044207&api=v2');
-        audio.play(); 
+        var audio2 = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_hatsignal.wav?version=1&modificationDate=1488767044207&api=v2');
+        audio2.play(); 
     }
     if (snumber == 3) { // code red
-        var audio = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_codered.wav?version=1&modificationDate=1488766987707&api=v2');
-        audio.play(); 
+        var audio3 = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_codered.wav?version=1&modificationDate=1488766987707&api=v2');
+        audio3.play(); 
     }
-    if (snumber == 4) { // snickers
+    if (snumber4 == 4) { // snickers
         var audio = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_snickers.wav?version=1&modificationDate=1488767074177&api=v2');
-        audio.play(); 
+        audio4.play(); 
     }
 }
 setInterval(MessageHandler, 1000);
