@@ -12,25 +12,27 @@ const messagetime = [];
 
 setInterval(10000);
 function MessageHandler() {
-    //let returnvalue;
+    let returnvalue;
     let lengthfuel;
     let lengthchat;
     //console.log("GrabMessage Started!");
     GrabChannels();
-    InitEventListener();
     GrabMessage(false, 0, 0);
     //console.log("waiting 5 seconds..");
-    setTimeout(1000);
+    setTimeout(10000);
     messagestringchat = messagestringchat.toLowerCase();
     messagestringfuel = messagestringfuel.toLowerCase();
-    lengthchat = messagelengthchat;
-    lengthfuel = messagelengthfuel;
-    for (let x = 0; x < 5; x++) {
-        GrabMessage(true, lengthchat, lengthfuel);
-        lengthchat = lengthchat--;
-        lengthfuel = lengthfuel--;
-        CheckMessage();
+    returnvalue = CheckMessage();
+    if (returnvalue == 0) {
+        lengthchat = messagelengthchat;
+        lengthfuel = messagelengthfuel;
+        for (let x = 0; x < 5; x++) {
+            lengthchat = lengthchat--;
+            lengthfuel = lengthfuel--;
+            GrabMessage(true, lengthchat, lengthfuel);
+        }
     }
+    returnvalue = CheckMessage();
 }
 
 function GrabMessage(lengthbool, lengthsecondarychat, lengthsecondaryfuel) { // if lengthbool is true, this function will use the provided number from the parameter instead of length.
@@ -39,30 +41,30 @@ function GrabMessage(lengthbool, lengthsecondarychat, lengthsecondaryfuel) { // 
         setTimeout(2000);
         if (activechannels.includes("#ratchat")) {
             console.log("ratchat");
-            messagelengthchat = InjectLengthScript("#ratchat", 'mlc');
-            messagestringchat = InjectScript("#ratchat", messagelengthchat, "message", 'msc');
-            messagetimechat = InjectScript("#ratchat", messagelengthchat, "time", 'mtc');
+            messagelengthchat = InjectLengthScript("#ratchat");
+            messagestringchat = InjectScript("#ratchat", messagelengthchat, "message");
+            messagetimechat = InjectScript("#ratchat", messagelengthchat, "time");
         }
         if (activechannels.includes("#fuelrats")) {
             console.log("fuelrats");
-            messagelengthfuel = InjectLengthScript("#fuelrats", 'mlf');
-            messagestringfuel = InjectScript("#fuelrats", messagelengthfuel, "message", 'msf');
-            messagetimefuel = InjectScript("#fuelrats", messagelengthfuel, "time", 'mtf');
+            messagelengthfuel = InjectLengthScript("#fuelrats");
+            messagestringfuel = InjectScript("#fuelrats", messagelengthfuel, "message");
+            messagetimefuel = InjectScript("#fuelrats", messagelengthfuel, "time");
         }
         return;
     }
     if (lengthbool == true) {
         if (activechannels.includes("#ratchat")) {
             console.log("ratchat, lb");
-            messagelengthchat = InjectLengthScript("#ratchat", 'msc');
-            messagestringchat = InjectScript("#ratchat", lengthsecondarychat, "message", 'msc');
-            messagetimechat = InjectScript("#ratchat", lengthsecondarychat, "time", 'mtc');
+            messagelengthchat = InjectLengthScript("#ratchat");
+            messagestringchat = InjectScript("#ratchat", lengthsecondarychat, "message");
+            messagetimechat = InjectScript("#ratchat", lengthsecondarychat, "time");
         }
         if (activechannels.includes("#fuelrats")) {
             console.log("fuelrats, lb");
-            messagelengthfuel = InjectLengthScript("#fuelrats", 'mlf');
-            messagestringfuel = InjectScript("#fuelrats", lengthsecondaryfuel, "message", 'msf');
-            messagetimefuel = InjectScript("#fuelrats", lengthsecondaryfuel, "time", 'mtf');
+            messagelengthfuel = InjectLengthScript("#fuelrats");
+            messagestringfuel = InjectScript("#fuelrats", lengthsecondaryfuel, "message");
+            messagetimefuel = InjectScript("#fuelrats", lengthsecondaryfuel, "time");
         }
         return;
     }
@@ -113,63 +115,47 @@ function GrabChannels() {
     console.log("no channels found");
 }
 
-function InitEventListener() {
-    document.addEventListener('msc', function (event) {
-        messagestringchat = event.detail;
-    });
-    document.addEventListener('msf', function (event) {
-        messagestringfuel = event.detail;
-    });
-    document.addEventListener('mtc', function (event) {
-        messagetimechat = event.detail;
-        if (type == "time") {
-            messagetimechat = parseInt(datareturn);
-        }
-    });
-    document.addEventListener('mtf', function (event) {
-        messagetimefuel= event.detail;
-        if (type == "time") {
-            messagetimefuel = parseInt(datareturn);
-        }
-    });
-    document.addEventListener('mlc', function (event) {
-        messagelengthchat = event.detail;
-        messagelengthchat = parseInt(messagelengthchat);
-    });
-    document.addEventListener('mlf', function (event) {
-        messagelengthfuel = event.detail;
-        messagelengthfuel = parseInt(messagelengthfue);
-    });
-}
-
-function InjectLengthScript(Channel, event) {
+function InjectLengthScript(Channel) { // Same as InjectScript except this one is intended to obtain how many messages there are.
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var length = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("EVENT", {detail: data}));';
+    let string = 'var length = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
     string = string.replace('CHANNEL', Channel);
-    string = string.replace('EVENT', event);
     script.textContent = string;
     (document.head||document.documentElement).appendChild(script);
+        document.addEventListener('dataevent', function (event) {
+            datareturn = event.detail;
+            datareturn = parseInt(datareturn);
+        });
     script.parentNode.removeChild(script);
+    document.removeEventListener('dataevent', function (event) {
+    });
     return datareturn;
 }
 
-function InjectScript(Channel, length, type, event) {
+function InjectScript(Channel, length, type) { // Injects a script onto the site
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].TYPE; document.dispatchEvent(new CustomEvent("EVENT", {detail: data}));';
+    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].TYPE; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
     string = string.replace('CHANNEL', Channel);
     string = string.replace('LENGTH', length);
     string = string.replace('TYPE', type);
-    string = string.replace('EVENT', event);
     script.textContent = string;
     (document.head||document.documentElement).appendChild(script);
+        document.addEventListener('dataevent', function (event) {
+            datareturn = event.detail;
+            console.log("RECEIVED!!, REG");
+            if (type == "time") {
+                datareturn = parseInt(datareturn);
+            }
+        });
     script.parentNode.removeChild(script);   
+    document.removeEventListener('dataevent', function (event) {
+    });
     return datareturn;
 }
 
 function CheckMessage() { // Returns 1 if successful, 0 if not.
-        //console.log("checking if string matches..");
+        console.log("checking if string matches..");
         if (messagestringchat.includes("ratsignal") && (messagetimechat > lasttimechat)) {
             lasttimechat = messagetimechat;
             console.log("RAT!");
@@ -239,6 +225,13 @@ function ResetVar() {
     window.messagetimechat = null;
     window.messagetimefuel = null;
 }
+
+function PlayAudio(){
+    var files = this.files;
+    var file = URL.createObjectURL(files[0]); 
+                audio_player.src = file; 
+    audio_player.play();
+  };
 
 function PlaySound(snumber) {
     if (snumber == 1) { // ratsignal
