@@ -115,7 +115,7 @@ function GrabChannels() { // Gets the currently active channels and places them 
                 || words[wordnumber].endsWith("v") || words[wordnumber].endsWith("w") || words[wordnumber].endsWith("x")
                 || words[wordnumber].endsWith("y") || words[wordnumber].endsWith("z")) 
                 {
-                    activechannels.length = 0;
+                    activechannels.length = 0; // empties the array so that a bunch of same data doesn't flood the array.
                     activechannels.length = activechannels.length++;
                     activechannels.push(words[wordnumber]);
                     console.log("active channels: " + activechannels);
