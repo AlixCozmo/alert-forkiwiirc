@@ -30,10 +30,29 @@ function MessageHandler() {
                 lengthchat = lengthchat--;
                 lengthfuel = lengthfuel--;
                 GrabMessage(true, lengthchat, lengthfuel);
+                setTimeout(1000);
                 CheckMessage();
             }
     } else {
         console.error("Caution! One or more values are null!");
+        if (messagestringchat == null) {
+            console.error("messagestringchat is null");
+        }
+        if (messagestringfuel == null) {
+            console.error("messagestringfuel is null");
+        }
+        if (messagetimechat == 0) {
+            console.error("messagetimechat is 0");
+        }
+        if (messagetimefuel == 0) {
+            console.error("messagestimefuel is 0");
+        }
+        if (messagelengthchat == null) {
+            console.error("messagelengthchat is null");
+        }
+        if (messagelengthfuel == null) {
+            console.error("messagelengthfuel is null");
+        }
     }
 }
 
@@ -44,12 +63,16 @@ function GrabMessage(lengthbool, lengthsecondarychat, lengthsecondaryfuel) { // 
         if (activechannels.includes("#ratchat")) {
             console.log("ratchat");
             messagelengthchat = InjectLengthScript("#ratchat");
+            console.log("waiting for 1 second before continuing..");
+            setTimeout(1000);
             messagestringchat = InjectScript("#ratchat", messagelengthchat, "message");
             messagetimechat = InjectScript("#ratchat", messagelengthchat, "time");
         }
         if (activechannels.includes("#fuelrats")) {
             console.log("fuelrats");
             messagelengthfuel = InjectLengthScript("#fuelrats");
+            console.log("waiting for 1 second before continuing..");
+            setTimeout(1000);
             messagestringfuel = InjectScript("#fuelrats", messagelengthfuel, "message");
             messagetimefuel = InjectScript("#fuelrats", messagelengthfuel, "time");
         }
@@ -86,7 +109,7 @@ function AddVariables() {
     return;
 }
 
-function GrabChannels() {
+function GrabChannels() { // Gets the currently active channels and places them into the activechannels array
     console.log("grabchannels");
     let element=document.getElementsByClassName("kiwi-statebrowser-channel-name");
     let text = "";
@@ -106,6 +129,7 @@ function GrabChannels() {
                 || words[wordnumber].endsWith("v") || words[wordnumber].endsWith("w") || words[wordnumber].endsWith("x")
                 || words[wordnumber].endsWith("y") || words[wordnumber].endsWith("z")) 
                 {
+                    activechannels = [];
                     activechannels.length = activechannels.length++;
                     activechannels.push(words[wordnumber]);
                     console.log("active channels: " + activechannels);
@@ -132,7 +156,7 @@ function InjectLengthScript(Channel) { // Same as InjectScript except this one i
     (document.head||document.documentElement).appendChild(script);
         document.addEventListener('dataevent', function (event) {
             datareturn = event.detail;
-            console.log("RECEIVED!!, LENGTH");
+            //console.log("RECEIVED!!, LENGTH");
             datareturn = parseInt(datareturn);
         });
     script.parentNode.removeChild(script);
@@ -152,7 +176,7 @@ function InjectScript(Channel, length, type) { // Injects a script onto the site
     (document.head||document.documentElement).appendChild(script);
         document.addEventListener('dataevent', function (event) {
             datareturn = event.detail;
-            console.log("RECEIVED!!, REG");
+            //console.log("RECEIVED!!, REG");
             if (type == "time") {
                 datareturn = parseInt(datareturn);
             }
