@@ -94,7 +94,7 @@ function GrabMessage(lengthbool, lengthsecondarychat, lengthsecondaryfuel) { // 
             messagestringfuel = InjectScript("#fuelrats", lengthsecondaryfuel, "message");
             messagetimefuel = InjectScript("#fuelrats", lengthsecondaryfuel, "time");
         }
-        if (messagelengthchat || messagestringchat || messagetimechat || messagelengthfuel || messagestringfuel || messagetimefuel == null) {
+        if (((messagelengthchat || messagestringchat ||  messagelengthfuel || messagestringfuel) == null) || (messagetimechat || messagetimefuel) == 0) {
             return 0;
         }
         return 1;
