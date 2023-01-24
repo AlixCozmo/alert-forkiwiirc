@@ -9,8 +9,9 @@ var messagelengthfuel;
 const activechannels = [];
 const messagelength = [];
 const messagetime = [];
-
+console.log("waiting for 10s");
 setInterval(10000);
+console.log("done");
 function MessageHandler() {
     let returnvalue = 0;
     let lengthfuel;
@@ -32,7 +33,7 @@ function MessageHandler() {
                 CheckMessage();
             }
     } else {
-        console.log("Caution! One or more values are null!");
+        console.error("Caution! One or more values are null!");
     }
 }
 
