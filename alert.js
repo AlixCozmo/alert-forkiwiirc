@@ -15,8 +15,8 @@ function MessageHandler() {
     let returnvalue;
     let lengthfuel;
     let lengthchat;
-    console.log("GrabMessage Started!");
-    //GrabChannels();
+    //console.log("GrabMessage Started!");
+    GrabChannels();
     GrabMessage(false, 0, 0);
     //console.log("waiting 5 seconds..");
     setTimeout(10000);
@@ -37,12 +37,16 @@ function MessageHandler() {
 
 function GrabMessage(lengthbool, lengthsecondarychat, lengthsecondaryfuel) { // if lengthbool is true, this function will use the provided number from the parameter instead of length.
     if (lengthbool == false) {
+        console.log("grabmessage");
+        setTimeout(2000);
         if (activechannels.includes("#ratchat")) {
+            console.log("ratchat");
             messagelengthchat = InjectLengthScript("#ratchat");
             messagestringchat = InjectScript("#ratchat", messagelengthchat, "message");
             messagetimechat = InjectScript("#ratchat", messagelengthchat, "time");
         }
         if (activechannels.includes("#fuelrats")) {
+            console.log("fuelrats");
             messagelengthfuel = InjectLengthScript("#fuelrats");
             messagestringfuel = InjectScript("#fuelrats", messagelengthfuel, "message");
             messagetimefuel = InjectScript("#fuelrats", messagelengthfuel, "time");
@@ -51,11 +55,13 @@ function GrabMessage(lengthbool, lengthsecondarychat, lengthsecondaryfuel) { // 
     }
     if (lengthbool == true) {
         if (activechannels.includes("#ratchat")) {
+            console.log("ratchat, lb");
             messagelengthchat = InjectLengthScript("#ratchat");
             messagestringchat = InjectScript("#ratchat", lengthsecondarychat, "message");
             messagetimechat = InjectScript("#ratchat", lengthsecondarychat, "time");
         }
         if (activechannels.includes("#fuelrats")) {
+            console.log("fuelrats, lb");
             messagelengthfuel = InjectLengthScript("#fuelrats");
             messagestringfuel = InjectScript("#fuelrats", lengthsecondaryfuel, "message");
             messagetimefuel = InjectScript("#fuelrats", lengthsecondaryfuel, "time");
@@ -73,6 +79,7 @@ function AddVariables() {
 }
 
 function GrabChannels() {
+    console.log("grabchannels");
     let element=document.getElementsByClassName("kiwi-statebrowser-channel-name");
     let text = "";
     let words = "";
@@ -96,11 +103,16 @@ function GrabChannels() {
                     console.log("active channels: " + activechannels);
                     return;
                     
+                } else {
+                    console.log("no channels found");
                 }
-            } 
+            } else {
+                console.log("no channels found");
+            }
         }
 
     }
+    console.log("no channels found");
 }
 
 function InjectLengthScript(Channel) {
@@ -140,32 +152,32 @@ function InjectScript(Channel, length, type) {
 
 function CheckMessage() { // Returns 1 if successful, 0 if not.
         //console.log("checking if string matches..");
-        if (messagestringchat.includes("ratsignal" && lasttimechat != messagetimechat)) {
+        if (messagestringchat.includes("ratsignal") && (messagetimechat > lasttimechat)) {
             lasttimechat = messagetimechat;
             console.log("RAT!");
             PlaySound(1);
             return 1;
         }
-        if (messagestringchat.includes("hatsignal" && lasttimechat != messagetimechat)) {
+        if (messagestringchat.includes("hatsignal") && (messagetimechat > lasttimechat)) {
             lasttimechat = messagetimechat;
             console.log("HAT!");
             PlaySound(2);
             return 1;
         }
-        if (messagestringchat.includes("test" && lasttimechat != messagetimechat)) {
+        if (messagestringchat.includes("test") && (messagetimechat > lasttimechat)) {
             lasttimechat = messagetimechat;
             console.log("test!");
             PlaySound(4);
             return 1;
         }
-        if (messagestringchat.includes("joined") && lasttimechat != messagetimechat) {
+        if (messagestringchat.includes("joined") && (messagetimechat > lasttimechat)) {
             lasttimechat = messagetimechat;
             console.log("joined!");
             PlaySound(4);
             return 1;
         }
 
-        if (messagestringfuel.includes("code red") && messagestringfuel.includes("ratsignal") && lasttimefuel != messagetimefuel) {
+        if (messagestringfuel.includes("code red") && messagestringfuel.includes("ratsignal") && (messagetimefuel > lasttimefuel)) {
             lasttimefuel = messagetimechat;
             console.log("CODE RED!");
             PlaySound(3);
@@ -212,20 +224,24 @@ function ResetVar() {
 
 function PlaySound(snumber) {
     if (snumber == 1) { // ratsignal
-    var audio1 = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_ratsignal.wav?version=1&modificationDate=1488766734831&api=v2');
-    audio1.play(); 
+        var audio1 = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_ratsignal.wav?version=1&modificationDate=1488766734831&api=v2');
+        audio1.play();
+        console.log("played sound 1");
     }
     if (snumber == 2) { // hatsignal
         var audio2 = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_hatsignal.wav?version=1&modificationDate=1488767044207&api=v2');
-        audio2.play(); 
+        audio2.play();
+        console.log("played sound 2");
     }
     if (snumber == 3) { // code red
         var audio3 = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_codered.wav?version=1&modificationDate=1488766987707&api=v2');
-        audio3.play(); 
+        audio3.play();
+        console.log("played sound 3");
     }
     if (snumber4 == 4) { // snickers
         var audio = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_snickers.wav?version=1&modificationDate=1488767074177&api=v2');
-        audio4.play(); 
+        audio4.play();
+        console.log("played sound 4");
     }
 }
 setInterval(MessageHandler, 1000);
