@@ -12,27 +12,28 @@ const messagetime = [];
 
 setInterval(10000);
 function MessageHandler() {
-    let returnvalue;
+    let returnvalue = 0;
     let lengthfuel;
     let lengthchat;
     //console.log("GrabMessage Started!");
     GrabChannels();
-    GrabMessage(false, 0, 0);
-    //console.log("waiting 5 seconds..");
-    setTimeout(10000);
-    messagestringchat = messagestringchat.toLowerCase();
-    messagestringfuel = messagestringfuel.toLowerCase();
-    returnvalue = CheckMessage();
-    if (returnvalue == 0) {
+    returnvalue = GrabMessage(false, 0, 0);
+    if (returnvalue == 1) {
+        //console.log("waiting 5 seconds..");
+        setTimeout(10000);
+        messagestringchat = messagestringchat.toLowerCase();
+        messagestringfuel = messagestringfuel.toLowerCase();
         lengthchat = messagelengthchat;
         lengthfuel = messagelengthfuel;
         for (let x = 0; x < 5; x++) {
-            lengthchat = lengthchat--;
-            lengthfuel = lengthfuel--;
-            GrabMessage(true, lengthchat, lengthfuel);
-        }
+                lengthchat = lengthchat--;
+                lengthfuel = lengthfuel--;
+                GrabMessage(true, lengthchat, lengthfuel);
+                CheckMessage();
+            }
+    } else {
+        console.log("Caution! One or more values are null!");
     }
-    returnvalue = CheckMessage();
 }
 
 function GrabMessage(lengthbool, lengthsecondarychat, lengthsecondaryfuel) { // if lengthbool is true, this function will use the provided number from the parameter instead of length.
@@ -51,7 +52,10 @@ function GrabMessage(lengthbool, lengthsecondarychat, lengthsecondaryfuel) { // 
             messagestringfuel = InjectScript("#fuelrats", messagelengthfuel, "message");
             messagetimefuel = InjectScript("#fuelrats", messagelengthfuel, "time");
         }
-        return;
+        if (((messagelengthchat || messagestringchat || messagelengthfuel || messagestringfuel) == null) || ((messagetimechat || messagetimefuel) == 0)) {
+            return 0;
+        }
+        return 1;
     }
     if (lengthbool == true) {
         if (activechannels.includes("#ratchat")) {
@@ -66,7 +70,10 @@ function GrabMessage(lengthbool, lengthsecondarychat, lengthsecondaryfuel) { // 
             messagestringfuel = InjectScript("#fuelrats", lengthsecondaryfuel, "message");
             messagetimefuel = InjectScript("#fuelrats", lengthsecondaryfuel, "time");
         }
-        return;
+        if (messagelengthchat || messagestringchat || messagetimechat || messagelengthfuel || messagestringfuel || messagetimefuel == null) {
+            return 0;
+        }
+        return 1;
     }
 }
 
@@ -124,6 +131,7 @@ function InjectLengthScript(Channel) { // Same as InjectScript except this one i
     (document.head||document.documentElement).appendChild(script);
         document.addEventListener('dataevent', function (event) {
             datareturn = event.detail;
+            console.log("RECEIVED!!, LENGTH");
             datareturn = parseInt(datareturn);
         });
     script.parentNode.removeChild(script);
@@ -162,6 +170,12 @@ function CheckMessage() { // Returns 1 if successful, 0 if not.
             PlaySound(1);
             return 1;
         }
+        if (messagestringchat.includes("code red") && messagestringchat.includes("ratsignal") && (messagetimechat > lasttimechat)) {
+            lasttimechat = messagetimechat;
+            console.log("CODE RED!");
+            PlaySound(3);
+            return 1;
+        }
         if (messagestringchat.includes("hatsignal") && (messagetimechat > lasttimechat)) {
             lasttimechat = messagetimechat;
             console.log("HAT!");
@@ -182,9 +196,15 @@ function CheckMessage() { // Returns 1 if successful, 0 if not.
         }
 
         if (messagestringfuel.includes("code red") && messagestringfuel.includes("ratsignal") && (messagetimefuel > lasttimefuel)) {
-            lasttimefuel = messagetimechat;
+            lasttimefuel = messagetimefuel;
             console.log("CODE RED!");
             PlaySound(3);
+            return 1;
+        }
+        if (messagestringfuel.includes("ratsignal") && (messagetimefuel > lasttimefuel)) {
+            lasttimefuel = messagetimefuel;
+            console.log("RAT!");
+            PlaySound(1);
             return 1;
         }
         /*
