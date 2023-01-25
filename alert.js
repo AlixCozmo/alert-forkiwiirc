@@ -100,7 +100,7 @@ function GrabChannels() { // Gets the currently active channels and places them 
     let text = "";
     let words = "";
     for (let elementnumber = 0; elementnumber < element.length; elementnumber++) {
-        text = element.innerText;
+        text = element[elementnumber].innerText;
         words=text.split(" ");
         for(let wordnumber=0; wordnumber < words.length; wordnumber++) {
             console.log("wordslength: " + words.length);
