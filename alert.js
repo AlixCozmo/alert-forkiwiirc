@@ -68,8 +68,8 @@ function GrabMessage(lengthbool, lengthsecondarychat, channelcounter) { // if le
             messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
             console.log("waiting for 1 second before continuing..");
             setTimeout(1000);
-            messagestring[channelcounter] = InjectScript(activechannels[channelcounter], messagelengthchat, "message");
-            messagetime[channelcounter] = InjectScript(activechannels[channelcounter], messagelengthchat, "time");
+            messagestring[channelcounter] = InjectScript(activechannels[channelcounter], messagelength[channelcounter], "message");
+            messagetime[channelcounter] = InjectScript(activechannels[channelcounter], messagelength[channelcounter], "time");
         if (((messagelength[channelcounter] || messagestring[channelcounter]) == null) || ((messagetime[channelcounter]) == 0)) {
             return 0;
         }
