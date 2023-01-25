@@ -95,11 +95,12 @@ function AddVariables() {
 
 function GrabChannels() { // Gets the currently active channels and places them into the activechannels array
     console.log("grabchannels");
-    //let element=document.getElementsByClassName("kiwi-statebrowser-channel-name");
-    let element=document.getElementsByClassName("kiwi-statebrowser kiwi-theme-bg");
+    let element=document.getElementsByClassName("kiwi-statebrowser-channel-name");
+    //let element=document.getElementsByClassName("kiwi-statebrowser kiwi-theme-bg");
     let text = "";
     let words = "";
-        text = element[elementnumber].innerText;
+    for (let elementnumber = 0; elementnumber < element.length; elementnumber++) {
+        text = element.innerText;
         words=text.split(" ");
         for(let wordnumber=0; wordnumber < words.length; wordnumber++) {
             console.log("wordslength: " + words.length);
@@ -123,6 +124,7 @@ function GrabChannels() { // Gets the currently active channels and places them 
                 }
             }
         }
+    }
 
     if (activechannels.length == 0) {
         console.warn("no channels found");
