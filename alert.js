@@ -102,6 +102,7 @@ function GrabChannels() { // Gets the currently active channels and places them 
         text = element[elementnumber].innerText;
         words=text.split(" ");
         for(let wordnumber=0; wordnumber < words.length; wordnumber++) {
+            console.log("wordslength: " + words.length);
             if (words[wordnumber].startsWith("#")) {
                 if (words[wordnumber].endsWith("a") || words[wordnumber].endsWith("b") || words[wordnumber].endsWith("c") 
                 || words[wordnumber].endsWith("d") || words[wordnumber].endsWith("e") || words[wordnumber].endsWith("f") 
