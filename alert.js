@@ -244,7 +244,7 @@ function PlayAudio(){
     audio_player.play();
   };
 
-function PlaySound(snumber) {
+function PlaySound(snumber) { // Plays audio, different sounds will be played depending on the value of the given number.
     if (snumber == 1) { // ratsignal
         var audio1 = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_ratsignal.wav?version=1&modificationDate=1488766734831&api=v2');
         audio1.play();
