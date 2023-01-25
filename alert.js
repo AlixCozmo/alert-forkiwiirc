@@ -1,4 +1,4 @@
-var lasttimefuel = 0;
+/*var lasttimefuel = 0;
 var lasttimechat = 0;
 var messagestringchat;
 var messagestringfuel;
@@ -6,6 +6,7 @@ var messagetimechat = 0;
 var messagetimefuel = 0;
 var messagelengthchat;
 var messagelengthfuel;
+*/
 const activechannels = [];
 const messagelength = [];
 const messagetime = [];
