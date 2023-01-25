@@ -53,7 +53,6 @@ function GrabMessage(lengthbool, lengthsec, channelcounter) { // if lengthbool i
     if (lengthbool == false) {
         console.log("grabmessage");
         setTimeout(2000);
-            console.log("ratchat");
             messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
             console.log("waiting for 1 second before continuing..");
             setTimeout(1000);
@@ -68,7 +67,7 @@ function GrabMessage(lengthbool, lengthsec, channelcounter) { // if lengthbool i
         return 1;
     }
     if (lengthbool == true) {
-            console.log("lb");
+            console.log("grabmessage lb");
             messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
             console.log("waiting for 1 second before continuing..");
             setTimeout(1000);
