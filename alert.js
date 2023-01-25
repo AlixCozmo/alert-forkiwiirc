@@ -95,10 +95,10 @@ function AddVariables() {
 
 function GrabChannels() { // Gets the currently active channels and places them into the activechannels array
     console.log("grabchannels");
-    let element=document.getElementsByClassName("kiwi-statebrowser-channel-name");
+    //let element=document.getElementsByClassName("kiwi-statebrowser-channel-name");
+    let element=document.getElementsByClassName("kiwi-statebrowser kiwi-theme-bg");
     let text = "";
     let words = "";
-    for (let elementnumber = 0; elementnumber < element.length; elementnumber++) {
         text = element[elementnumber].innerText;
         words=text.split(" ");
         for(let wordnumber=0; wordnumber < words.length; wordnumber++) {
@@ -128,8 +128,6 @@ function GrabChannels() { // Gets the currently active channels and places them 
                 return 0;
             }
         }
-
-    }
     console.warn("no channels found");
     return 0;
 }
@@ -140,13 +138,13 @@ function InjectLengthScript(Channel) { // Same as InjectScript except this one i
     let string = 'var length = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
     string = string.replace('CHANNEL', Channel);
     script.textContent = string;
+    document.addEventListener('dataevent', function (event) {
+        datareturn = event.detail;
+        console.error("BEFRECEIVED!!, LENGTH:" + datareturn); // using error instead of log to not spam the log
+        datareturn = parseInt(datareturn);
+        console.warn("AFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
+    });
     (document.head||document.documentElement).appendChild(script);
-        document.addEventListener('dataevent', function (event) {
-            datareturn = event.detail;
-            console.error("BEFRECEIVED!!, LENGTH:" + datareturn); // using error instead of log to not spam the log
-            datareturn = parseInt(datareturn);
-            console.warn("AFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
-        });
     setTimeout(1000);
     script.parentNode.removeChild(script);
     document.removeEventListener('dataevent', function (event) {
@@ -162,14 +160,16 @@ function InjectScript(Channel, length, type) { // Injects a script onto the site
     string = string.replace('LENGTH', length);
     string = string.replace('TYPE', type);
     script.textContent = string;
+    document.addEventListener('dataevent', function (event) {
+        datareturn = event.detail;
+        if (type == "time") {
+            datareturn = parseInt(datareturn);
+            console.warn("RECEIVED!!, TIME");
+        } else {
+            console.warn("RECEIVED!!, REG");
+        }
+    });
     (document.head||document.documentElement).appendChild(script);
-        document.addEventListener('dataevent', function (event) {
-            datareturn = event.detail;
-            //console.log("RECEIVED!!, REG");
-            if (type == "time") {
-                datareturn = parseInt(datareturn);
-            }
-        });
     setTimeout(1000);
     script.parentNode.removeChild(script);
     document.removeEventListener('dataevent', function (event) {
