@@ -268,7 +268,7 @@ function PlaySound(snumber) { // Plays audio, different sounds will be played de
         console.log("played sound 3");
     }
     if (snumber == 4) { // snickers
-        var audio = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_snickers.wav?version=1&modificationDate=1488767074177&api=v2');
+        var audio4 = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_snickers.wav?version=1&modificationDate=1488767074177&api=v2');
         audio4.play();
         console.log("played sound 4");
     }
