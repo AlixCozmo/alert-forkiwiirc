@@ -58,8 +58,10 @@ function GrabMessage(lengthbool, lengthsec, channelcounter) { // if lengthbool i
             console.log("waiting for 1 second before continuing..");
             setTimeout(1000);
             console.log("messagelength: " + messagelength[channelcounter]);
-            messagestring[channelcounter] = InjectScript(activechannels[channelcounter], messagelength[channelcounter], "message");
-            messagetime[channelcounter] = InjectScript(activechannels[channelcounter], messagelength[channelcounter], "time");
+            if (messagelength[channelcounter] != null) {
+                messagestring[channelcounter] = InjectScript(activechannels[channelcounter], messagelength[channelcounter], "message");
+                messagetime[channelcounter] = InjectScript(activechannels[channelcounter], messagelength[channelcounter], "time");
+            }
         if (((messagelength[channelcounter] || messagestring[channelcounter]) == null) || ((messagetime[channelcounter]) == 0)) {
             return 0;
         }
@@ -71,8 +73,10 @@ function GrabMessage(lengthbool, lengthsec, channelcounter) { // if lengthbool i
             console.log("waiting for 1 second before continuing..");
             setTimeout(1000);
             console.log("messagelength lb: " + messagelength[channelcounter]);
-            messagestring[channelcounter] = InjectScript(activechannels[channelcounter], lengthsec, "message");
-            messagetime[channelcounter] = InjectScript(activechannels[channelcounter], lengthsec, "time");
+            if (messagelength[channelcounter] != null) {
+                messagestring[channelcounter] = InjectScript(activechannels[channelcounter], lengthsec, "message");
+                messagetime[channelcounter] = InjectScript(activechannels[channelcounter], lengthsec, "time");
+            }
         }
         if (((messagelength[channelcounter] || messagestring[channelcounter]) == null) || ((messagetime[channelcounter]) == 0)) {
             return 0;
