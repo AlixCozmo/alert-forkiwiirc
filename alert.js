@@ -141,8 +141,9 @@ function InjectLengthScript(Channel) { // Same as InjectScript except this one i
     (document.head||document.documentElement).appendChild(script);
         document.addEventListener('dataevent', function (event) {
             datareturn = event.detail;
-            //console.log("RECEIVED!!, LENGTH");
+            console.error("BEFRECEIVED!!, LENGTH:" + datareturn); // using error instead of log to not spam the log
             datareturn = parseInt(datareturn);
+            console.warn("AFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
         });
     setTimeout(1000);
     script.parentNode.removeChild(script);
