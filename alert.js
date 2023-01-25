@@ -113,7 +113,10 @@ function GrabChannels() { // Gets the currently active channels and places them 
                 || words[wordnumber].endsWith("p") || words[wordnumber].endsWith("q") || words[wordnumber].endsWith("r")
                 || words[wordnumber].endsWith("s") || words[wordnumber].endsWith("t") || words[wordnumber].endsWith("u")
                 || words[wordnumber].endsWith("v") || words[wordnumber].endsWith("w") || words[wordnumber].endsWith("x")
-                || words[wordnumber].endsWith("y") || words[wordnumber].endsWith("z")) 
+                || words[wordnumber].endsWith("y") || words[wordnumber].endsWith("z") || words[wordnumber].endsWith("0") 
+                || words[wordnumber].endsWith("1") || words[wordnumber].endsWith("2") || words[wordnumber].endsWith("3")
+                || words[wordnumber].endsWith("4") || words[wordnumber].endsWith("5") || words[wordnumber].endsWith("6") 
+                || words[wordnumber].endsWith("7") || words[wordnumber].endsWith("8")|| words[wordnumber].endsWith("9"))
                 {
                     activechannels.length = 0; // empties the array so that a bunch of same data doesn't flood the array.
                     activechannels.length = activechannels.length++;
@@ -264,7 +267,7 @@ function PlaySound(snumber) { // Plays audio, different sounds will be played de
         audio3.play();
         console.log("played sound 3");
     }
-    if (snumber4 == 4) { // snickers
+    if (snumber == 4) { // snickers
         var audio = new Audio('https://confluence.fuelrats.com/download/attachments/7635267/ratsounds_snickers.wav?version=1&modificationDate=1488767074177&api=v2');
         audio4.play();
         console.log("played sound 4");
