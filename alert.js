@@ -135,7 +135,7 @@ function GrabChannels() { // Gets the currently active channels and places them 
 function InjectLengthScript(Channel) { // Same as InjectScript except this one is intended to obtain how many messages there are.
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var length = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
+    let string = 'var length = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataevent", {detail: data})); console.log("SENT DATA, TYPE: LENGTH")';
     string = string.replace('CHANNEL', Channel);
     script.textContent = string;
     document.addEventListener('dataevent', function (event) {
@@ -155,7 +155,7 @@ function InjectLengthScript(Channel) { // Same as InjectScript except this one i
 function InjectScript(Channel, length, type) { // Injects a script onto the site
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].TYPE; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
+    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].TYPE; document.dispatchEvent(new CustomEvent("dataevent", {detail: data})); console.log("SENT DATA, TYPE: " + type);';
     string = string.replace('CHANNEL', Channel);
     string = string.replace('LENGTH', length);
     string = string.replace('TYPE', type);
