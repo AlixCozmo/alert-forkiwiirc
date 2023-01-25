@@ -26,6 +26,7 @@ function MessageHandler() {
             console.log("waiting 5 seconds..");
             setTimeout(5000);
             console.log("done");
+            console.warn("active channel: " + activechannels[i]);
             messagestring[i] = messagestring[i].toLowerCase();
             lengthchat = messagelength[i];
             for (let x = 0; x < 5; x++) { // Goes back 5 messages and checks for keyword match
@@ -114,21 +115,21 @@ function GrabChannels() { // Gets the currently active channels and places them 
                     activechannels.length = 0; // empties the array so that a bunch of same data doesn't flood the array.
                     activechannels.length = activechannels.length++;
                     activechannels.push(words[wordnumber]);
-                    console.log("active channels: " + activechannels);
+                    console.warn("active channels: " + activechannels);
                     return 1;
                     
                 } else {
-                    console.log("no channels found");
+                    console.warn("no channels found");
                     return 0;
                 }
             } else {
-                console.log("no channels found");
+                console.warn("no channels found");
                 return 0;
             }
         }
 
     }
-    console.log("no channels found");
+    console.warn("no channels found");
     return 0;
 }
 
