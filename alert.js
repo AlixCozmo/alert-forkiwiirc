@@ -140,7 +140,7 @@ function GrabChannels() { // Gets the currently active channels and places them 
 function InjectLengthScript(Channel) { // Same as InjectScript except this one is intended to obtain how many messages there are.
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var length = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataevent", {detail: data})); console.log("SENT DATA, TYPE: LENGTH")';
+    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataevent", {detail: data})); console.log("SENT DATA, TYPE: LENGTH")';
     string = string.replace('CHANNEL', Channel);
     script.textContent = string;
     document.addEventListener('dataevent', function (event) {
