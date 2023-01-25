@@ -117,19 +117,18 @@ function GrabChannels() { // Gets the currently active channels and places them 
                     activechannels.length = activechannels.length++;
                     activechannels.push(words[wordnumber]);
                     console.warn("active channels: " + activechannels);
-                    return 1;
+                    continue;
                     
-                } else {
-                    console.warn("no channels found");
-                    return 0;
                 }
-            } else {
-                console.warn("no channels found");
-                return 0;
             }
         }
-    console.warn("no channels found");
-    return 0;
+
+    if (activechannels.length == 0) {
+        console.warn("no channels found");
+        return 0;
+    } else {
+        return 1;
+    }
 }
 
 function InjectLengthScript(Channel) { // Same as InjectScript except this one is intended to obtain how many messages there are.
