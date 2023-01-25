@@ -26,8 +26,6 @@ function MessageHandler() {
             console.log("waiting 5 seconds..");
             setTimeout(5000);
             console.log("done");
-            //messagestringchat = messagestringchat.toLowerCase();
-            //messagestringfuel = messagestringfuel.toLowerCase();
             messagestring[i] = messagestring[i].toLowerCase();
             lengthchat = messagelength[i];
             for (let x = 0; x < 5; x++) { // Goes back 5 messages and checks for keyword match
@@ -38,29 +36,20 @@ function MessageHandler() {
                 }
             } else {
                 console.error("Caution! One or more values are null!");
-                if (messagestringchat == null) {
-                    console.error("messagestringchat is null");
+                if (messagestringc[i] == null) {
+                    console.error("messagestring is null");
                 }
-                if (messagestringfuel == null) {
-                    console.error("messagestringfuel is null");
+                if (messagetime[i] == 0) {
+                    console.error("messagetime is 0");
                 }
-                if (messagetimechat == 0) {
-                    console.error("messagetimechat is 0");
-                }
-                if (messagetimefuel == 0) {
-                    console.error("messagestimefuel is 0");
-                }
-                if (messagelengthchat == null) {
-                    console.error("messagelengthchat is null");
-                }
-                if (messagelengthfuel == null) {
-                    console.error("messagelengthfuel is null");
+                if (messagelength[i] == null) {
+                    console.error("messagelength is null");
                 }
             }
     }
 }
 
-function GrabMessage(lengthbool, lengthsecondarychat, channelcounter) { // if lengthbool is true, this function will use the provided number from the parameter instead of length.
+function GrabMessage(lengthbool, lengthsec, channelcounter) { // if lengthbool is true, this function will use the provided number from the parameter instead of length.
     if (lengthbool == false) {
         console.log("grabmessage");
         setTimeout(2000);
@@ -78,8 +67,8 @@ function GrabMessage(lengthbool, lengthsecondarychat, channelcounter) { // if le
     if (lengthbool == true) {
             console.log("lb");
             messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
-            messagestring[channelcounter] = InjectScript(activechannels[channelcounter], lengthsecondarychat, "message");
-            messagetime[channelcounter] = InjectScript(activechannels[channelcounter], lengthsecondarychat, "time");
+            messagestring[channelcounter] = InjectScript(activechannels[channelcounter], lengthsec, "message");
+            messagetime[channelcounter] = InjectScript(activechannels[channelcounter], lengthsec, "time");
         }
         if (((messagelength[channelcounter] || messagestring[channelcounter]) == null) || ((messagetime[channelcounter]) == 0)) {
             return 0;
