@@ -99,6 +99,7 @@ function GrabChannels() { // Gets the currently active channels and places them 
     //let element=document.getElementsByClassName("kiwi-statebrowser kiwi-theme-bg");
     let text = "";
     let words = "";
+    activechannels.length = 0; // empties the array so that a bunch of same data doesn't flood the array.
     for (let elementnumber = 0; elementnumber < element.length; elementnumber++) {
         text = element[elementnumber].innerText;
         words=text.split(" ");
@@ -118,7 +119,6 @@ function GrabChannels() { // Gets the currently active channels and places them 
                 || words[wordnumber].endsWith("4") || words[wordnumber].endsWith("5") || words[wordnumber].endsWith("6") 
                 || words[wordnumber].endsWith("7") || words[wordnumber].endsWith("8")|| words[wordnumber].endsWith("9"))
                 {
-                    activechannels.length = 0; // empties the array so that a bunch of same data doesn't flood the array.
                     activechannels.length = activechannels.length++;
                     activechannels.push(words[wordnumber]);
                     console.warn("active channels: " + activechannels);
