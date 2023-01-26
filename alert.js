@@ -10,11 +10,11 @@ var messagelengthfuel;
 const activechannels = [];
 const messagelength = [];
 const messagetime = [];
-var messagestring = [];
+const messagestring = [];
 const lasttime = [];
 var channelcounter = 0;
 
-setInterval(MessageHandler, 1000);
+setInterval(MessageHandler, 2000);
 function MessageHandler() {
     //console.log("start");
     let returnvalue = 0;
@@ -29,10 +29,10 @@ function MessageHandler() {
         if (returnvalue == 1) {
             console.warn("active channel: " + activechannels[channelcounter]);;
             lengthchat = messagelength[channelcounter];
-            for (let x = 0; x < 5; x++) { // Goes back 5 messages and checks for keyword match
+            for (let x = 0; x < 10; x++) { // Goes back 10 messages and checks for keyword match
                     lengthchat = lengthchat--;
                     GrabMessage(true, lengthchat);
-                    messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
+                    //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
                     CheckMessage();
                 }
             } else {
@@ -140,54 +140,60 @@ function GrabChannels() { // Gets the currently active channels and places them 
 
 function InjectLengthScript(Channel) { // This function is intended to obtain how many messages there are.
     let datareturn;
+    let fDataEventLength = function (e) {datareturn = LengthScriptEvent(e.detail)};
     let script = document.createElement('script');
     let string = 'var lengthdata = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataeventlength", {detail: lengthdata}));';
     string = string.replace('CHANNEL', Channel);
     script.textContent = string;
-    document.addEventListener('dataeventlength', (e) => datareturn = LengthScriptEvent(e.detail));
+    document.addEventListener('dataeventlength', fDataEventLength);
     (document.head||document.documentElement).appendChild(script);
     script.parentNode.removeChild(script);
-    document.removeEventListener('dataeventlength', LengthScriptEvent);
+    document.removeEventListener('dataeventlength', fDataEventLength);
     console.warn("AFT4ARR, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     return datareturn;
 }
 
 function LengthScriptEvent(datareturn) {
-    //datareturn = event.detail;
     //console.warn("AFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     datareturn = parseInt(datareturn);
     datareturn = datareturn - 1; // decreases length by one because for some reason when I use the value from this I get an undefined error
     // but decreasing it by 1 seems to make it work as intended.
-    //console.warn("AFTAFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     return datareturn;
 }
 
 function InjectMessageScript(Channel, length) { // Injects a script onto the site, this one is intended to get a message
     let datareturn;
+    let fDataEventMessage = function (e) {datareturn = MessageScriptEvent(e.detail)};
     let script = document.createElement('script');
     let string = 'var messagedata = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].message; document.dispatchEvent(new CustomEvent("dataeventmessage", {detail: messagedata}));';
     string = string.replace('CHANNEL', Channel);
     string = string.replace('LENGTH', length);
     script.textContent = string;
-    document.addEventListener('dataeventmessage', (e) => datareturn = (e.detail));
+    document.addEventListener('dataeventmessage', fDataEventMessage);
     (document.head||document.documentElement).appendChild(script);
     script.parentNode.removeChild(script);
-    document.removeEventListener('dataeventmessage', (e) => datareturn = (e.detail));
+    document.removeEventListener('dataeventmessage', fDataEventMessage);
     //console.warn("MESSAGE, LENGTH:" + datareturn); // using warn instead of log to not spam the log
+    return datareturn;
+}
+
+function MessageScriptEvent(datareturn) {
+    datareturn = datareturn.toLowerCase();
     return datareturn;
 }
 
 function InjectTimeScript(Channel, length) { // Injects a script onto the site, this one is intended to obtain the message time
     let datareturn;
+    let fDataEventTime = function (e) {datareturn = TimeScriptEvent(e.detail)};
     let script = document.createElement('script');
     let string = 'var timedata = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].time; document.dispatchEvent(new CustomEvent("dataeventtime", {detail: timedata}));';
     string = string.replace('CHANNEL', Channel);
     string = string.replace('LENGTH', length);
     script.textContent = string;
-    document.addEventListener('dataeventtime', (e) => datareturn = TimeScriptEvent(e.detail));
+    document.addEventListener('dataeventtime', fDataEventTime);
     (document.head||document.documentElement).appendChild(script);
     script.parentNode.removeChild(script);
-    document.removeEventListener('dataeventtime', (e) => datareturn = TimeScriptEvent(e.detail));
+    document.removeEventListener('dataeventtime', fDataEventTime);
     //console.warn("TIME, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     return datareturn;
 }
