@@ -149,7 +149,7 @@ function InjectLengthScript(Channel) { // Same as InjectScript except this one i
         datareturn = parseInt(datareturn);
         datareturn = datareturn--; // decreases length by one because for some reason when I use the value from this I get an undefined error
         // but decreasing it by 1 seems to make it work as intended.
-        console.warn("AFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
+        //console.warn("AFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     });
     (document.head||document.documentElement).appendChild(script);
     setTimeout(1000);
