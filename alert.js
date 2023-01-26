@@ -21,7 +21,7 @@ function MessageHandler() {
     let lengthchat;
     //console.log("GrabMessage Started!");
     GrabChannels();
-    for (let i = 0; i == activechannels.length; i++) {
+    for (let i = 0; i < activechannels.length; i++) {
         console.log("activechannellength: " + activechannels.length);
         console.log("i: " + i);
         returnvalue = GrabMessage(false, 0, 0);
@@ -62,8 +62,8 @@ function GrabMessage(lengthbool, lengthsec, channelcounter) { // if lengthbool i
             setTimeout(1000);
             console.log("messagelength: " + messagelength[channelcounter]);
             if (messagelength[channelcounter] != null) {
-                messagestring[channelcounter] = InjectScript(activechannels[channelcounter], messagelength[channelcounter], "message");
-                messagetime[channelcounter] = InjectScript(activechannels[channelcounter], messagelength[channelcounter], "time");
+                messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], messagelength[channelcounter]);
+                messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], messagelength[channelcounter]);
             }
         if (((messagelength[channelcounter] || messagestring[channelcounter]) == null) || ((messagetime[channelcounter]) == 0)) {
             return 0;
@@ -77,8 +77,8 @@ function GrabMessage(lengthbool, lengthsec, channelcounter) { // if lengthbool i
             setTimeout(1000);
             console.log("messagelength lb: " + messagelength[channelcounter]);
             if (messagelength[channelcounter] != null) {
-                messagestring[channelcounter] = InjectScript(activechannels[channelcounter], lengthsec, "message");
-                messagetime[channelcounter] = InjectScript(activechannels[channelcounter], lengthsec, "time");
+                messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], lengthsec);
+                messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], lengthsec);
             }
         }
         if (((messagelength[channelcounter] || messagestring[channelcounter]) == null) || ((messagetime[channelcounter]) == 0)) {
@@ -87,13 +87,14 @@ function GrabMessage(lengthbool, lengthsec, channelcounter) { // if lengthbool i
         return 1;
     }
 
-function AddVariables() {
+/*function AddVariables() {
     for (let x = 0; x < activechannels.length; x++) {
         messagelength.length = messagelength.length++;
         messagelength.push(words[wordnumber]);
     }
     return;
 }
+*/
 
 function GrabChannels() { // Gets the currently active channels and places them into the activechannels array
     console.log("grabchannels");
@@ -142,46 +143,61 @@ function GrabChannels() { // Gets the currently active channels and places them 
 function InjectLengthScript(Channel) { // Same as InjectScript except this one is intended to obtain how many messages there are.
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
+    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataeventlength", {detail: data}));';
     string = string.replace('CHANNEL', Channel);
     script.textContent = string;
-    document.addEventListener('dataevent', function (event) {
+    document.addEventListener('dataeventlength', function (event) {
         datareturn = event.detail;
         //console.error("BEFRECEIVED!!, LENGTH:" + datareturn); // using error instead of log to not spam the log
         datareturn = parseInt(datareturn);
-        datareturn = datareturn--; // decreases length by one because for some reason when I use the value from this I get an undefined error
+        console.log("bef datareturn: " + datareturn);
+        datareturn = datareturn - 1; // decreases length by one because for some reason when I use the value from this I get an undefined error
         // but decreasing it by 1 seems to make it work as intended.
+        console.log("aft datareturn: " + datareturn);
         //console.warn("AFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     });
     (document.head||document.documentElement).appendChild(script);
     setTimeout(1000);
     script.parentNode.removeChild(script);
-    document.removeEventListener('dataevent', function (event) {
+    document.removeEventListener('dataeventlength', function (event) {
     });
     return datareturn;
 }
 
-function InjectScript(Channel, length, type) { // Injects a script onto the site
+function InjectMessageScript(Channel, length) { // Injects a script onto the site
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].TYPE; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
+    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].message; document.dispatchEvent(new CustomEvent("dataeventmessage", {detail: data}));';
     string = string.replace('CHANNEL', Channel);
     string = string.replace('LENGTH', length);
-    string = string.replace('TYPE', type);
     script.textContent = string;
-    document.addEventListener('dataevent', function (event) {
+    document.addEventListener('dataeventmessage', function (event) {
         datareturn = event.detail;
-        if (type == "time") {
-            datareturn = parseInt(datareturn);
-            console.warn("RECEIVED!!, TIME");
-        } else {
-            console.warn("RECEIVED!!, REG");
-        }
     });
     (document.head||document.documentElement).appendChild(script);
     setTimeout(1000);
     script.parentNode.removeChild(script);
-    document.removeEventListener('dataevent', function (event) {
+    document.removeEventListener('dataeventmessage', function (event) {
+    });
+    return datareturn;
+}
+
+function InjectTimeScript(Channel, length) { // Injects a script onto the site
+    let datareturn;
+    let script = document.createElement('script');
+    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].time; document.dispatchEvent(new CustomEvent("dataeventtime", {detail: data}));';
+    string = string.replace('CHANNEL', Channel);
+    string = string.replace('LENGTH', length);
+    script.textContent = string;
+    document.addEventListener('dataeventtime', function (event) {
+        datareturn = event.detail;
+            datareturn = parseInt(datareturn);
+            //console.warn("RECEIVED!!, TIME");
+    });
+    (document.head||document.documentElement).appendChild(script);
+    setTimeout(1000);
+    script.parentNode.removeChild(script);
+    document.removeEventListener('dataeventtime', function (event) {
     });
     return datareturn;
 }
@@ -189,31 +205,31 @@ function InjectScript(Channel, length, type) { // Injects a script onto the site
 function CheckMessage(channelcounter) { // Returns 1 if successful, 0 if not.
         console.log("checking if string matches..");
         if (messagestring[channelcounter].includes("ratsignal") && (messagetime[channelcounter] > lasttime[channelcounter])) {
-            lasttimechat = messagetimechat;
+            lasttime[channelcounter] = messagetime[channelcounter];
             console.log("RAT!");
             PlaySound(1);
             return 1;
         }
         if (messagestring[channelcounter].includes("code red") && messagestring[channelcounter].includes("ratsignal") && (messagetime[channelcounter] > lasttime[channelcounter])) {
-            lasttimechat = messagetimechat;
+            lasttime[channelcounter] = messagetime[channelcounter];
             console.log("CODE RED!");
             PlaySound(3);
             return 1;
         }
         if (messagestring[channelcounter].includes("hatsignal") && (messagetime[channelcounter] > lasttime[channelcounter])) {
-            lasttimechat = messagetimechat;
+            lasttime[channelcounter] = messagetime[channelcounter];
             console.log("HAT!");
             PlaySound(2);
             return 1;
         }
         if (messagestring[channelcounter].includes("test") && (messagetime[channelcounter] > lasttime[channelcounter])) {
-            lasttimechat = messagetimechat;
+            lasttime[channelcounter] = messagetime[channelcounter];
             console.log("test!");
             PlaySound(4);
             return 1;
         }
         if (messagestring[channelcounter].includes("joined") && (messagetime[channelcounter] > lasttime[channelcounter])) {
-            lasttimechat = messagetimechat;
+            lasttime[channelcounter] = messagetime[channelcounter];
             console.log("joined!");
             PlaySound(4);
             return 1;
