@@ -21,7 +21,7 @@ function MessageHandler() {
     let lengthchat;
     //console.log("GrabMessage Started!");
     GrabChannels();
-    for (let i = 0; i < activechannels.length+1; i++) {
+    for (let i = 0; i == activechannels.length; i++) {
         console.log("activechannellength: " + activechannels.length);
         console.log("i: " + i);
         returnvalue = GrabMessage(false, 0, 0);
