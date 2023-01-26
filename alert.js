@@ -26,16 +26,12 @@ function MessageHandler() {
         console.log("i: " + i);
         returnvalue = GrabMessage(false, 0, 0);
         if (returnvalue == 1) {
-            console.log("waiting 5 seconds..");
-            setTimeout(5000);
-            console.log("done");
             console.warn("active channel: " + activechannels[i]);
             messagestring[i] = messagestring[i].toLowerCase();
             lengthchat = messagelength[i];
             for (let x = 0; x < 5; x++) { // Goes back 5 messages and checks for keyword match
                     lengthchat = lengthchat--;
                     GrabMessage(true, lengthchat, i);
-                    setTimeout(1000);
                     CheckMessage(i);
                 }
             } else {
@@ -56,14 +52,11 @@ function MessageHandler() {
 function GrabMessage(lengthbool, lengthsec, channelcounter) { // if lengthbool is true, this function will use the provided number from the parameter instead of length.
     if (lengthbool == false) {
         console.log("grabmessage");
-        setTimeout(2000);
-            messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
-            console.log("waiting for 1 second before continuing..");
-            setTimeout(1000);
+        SetTimeout(messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]), 1000);
             console.log("messagelength: " + messagelength[channelcounter]);
             if (messagelength[channelcounter] != null) {
-                messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], messagelength[channelcounter]);
-                messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], messagelength[channelcounter]);
+                SetTimeout(messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], messagelength[channelcounter]), 1000);
+                SetTimeout(messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], messagelength[channelcounter]), 1000);
             }
         if (((messagelength[channelcounter] || messagestring[channelcounter]) == null) || ((messagetime[channelcounter]) == 0)) {
             return 0;
@@ -72,13 +65,11 @@ function GrabMessage(lengthbool, lengthsec, channelcounter) { // if lengthbool i
     }
     if (lengthbool == true) {
             console.log("grabmessage lb");
-            messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
-            console.log("waiting for 1 second before continuing..");
-            setTimeout(1000);
+            SetTimeout(messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]), 1000);
             console.log("messagelength lb: " + messagelength[channelcounter]);
             if (messagelength[channelcounter] != null) {
-                messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], lengthsec);
-                messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], lengthsec);
+                SetTimeout(messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], lengthsec), 1000);
+                SetTimeout(messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], lengthsec), 1000);
             }
         }
         if (((messagelength[channelcounter] || messagestring[channelcounter]) == null) || ((messagetime[channelcounter]) == 0)) {
@@ -157,8 +148,6 @@ function InjectLengthScript(Channel) { // This function is intended to obtain ho
         //console.warn("AFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     });
     (document.head||document.documentElement).appendChild(script);
-    console.log("waiting 5 seconds, LENGTH");
-    setTimeout(5000);
     script.parentNode.removeChild(script);
     document.removeEventListener('dataeventlength', function (event) {
         console.log("REMOVED DATAEVENTLENGTH");
@@ -177,8 +166,6 @@ function InjectMessageScript(Channel, length) { // Injects a script onto the sit
         datareturn = event.detail;
     });
     (document.head||document.documentElement).appendChild(script);
-    console.log("waiting 5 seconds, MESSAGE");
-    setTimeout(5000);
     script.parentNode.removeChild(script);
     document.removeEventListener('dataeventmessage', function (event) {
         console.log("REMOVED DATAEVENTMESSAGE");
@@ -199,8 +186,6 @@ function InjectTimeScript(Channel, length) { // Injects a script onto the site, 
             //console.warn("RECEIVED!!, TIME");
     });
     (document.head||document.documentElement).appendChild(script);
-    console.log("waiting 5 seconds, TIME");
-    setTimeout(5000);
     script.parentNode.removeChild(script);
     document.removeEventListener('dataeventtime', function (event) {
         console.log("REMOVED DATAEVENTTIME");
