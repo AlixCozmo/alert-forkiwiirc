@@ -53,20 +53,20 @@ function MessageHandler() {
 
 function GrabMessage(lengthbool, lengthsec) { // if lengthbool is true, this function will use the provided number from the parameter instead of length.
     if (lengthbool == false) {
-        console.log("grabmessage");
-        console.warn("BEFBEF!!, LENGTH:" + messagelength[channelcounter]); // using warn instead of log to not spam the log
+        //console.log("grabmessage");
+        //console.warn("BEFBEF!!, LENGTH:" + messagelength[channelcounter]); // using warn instead of log to not spam the log
         messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
-        setTimeout(console.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter]), 800); // using warn instead of log to not spam the log
+        //setTimeout(console.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter]), 800); // using warn instead of log to not spam the log
         if (messagelength[channelcounter] != null) {
-            console.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter])
+            c//onsole.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter])
             messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], messagelength[channelcounter]);
             messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], messagelength[channelcounter]);
         }
     }
     if (lengthbool == true) {
-        console.log("grabmessage lb");
+        //console.log("grabmessage lb");
         messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
-        console.log("messagelength lb: " + messagelength[channelcounter]);
+        //console.log("messagelength lb: " + messagelength[channelcounter]);
         if (messagelength[channelcounter] != null) {
             messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], lengthsec);
             messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], lengthsec);
@@ -95,7 +95,7 @@ function CheckForNull(Channelcounter) { // Returns 0 if one of the arrays are nu
 */
 
 function GrabChannels() { // Gets the currently active channels and places them into the activechannels array
-    console.log("grabchannels");
+    //console.log("grabchannels");
     let element=document.getElementsByClassName("kiwi-statebrowser-channel-name");
     //let element=document.getElementsByClassName("kiwi-statebrowser kiwi-theme-bg");
     let text = "";
@@ -156,7 +156,7 @@ function LengthScriptEvent(datareturn) {
     //datareturn = event.detail;
     //console.warn("AFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     datareturn = parseInt(datareturn);
-    datareturn = datareturn - 1; // decreases length by one because for some reason when I use the value from this I get an undefined error
+    //datareturn = datareturn - 1; // decreases length by one because for some reason when I use the value from this I get an undefined error
     // but decreasing it by 1 seems to make it work as intended.
     //console.warn("AFTAFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     return datareturn;
@@ -173,7 +173,7 @@ function InjectMessageScript(Channel, length) { // Injects a script onto the sit
     (document.head||document.documentElement).appendChild(script);
     script.parentNode.removeChild(script);
     document.removeEventListener('dataeventmessage', (e) => datareturn = (e.detail));
-    console.warn("MESSAGE, LENGTH:" + datareturn); // using warn instead of log to not spam the log
+    //console.warn("MESSAGE, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     return datareturn;
 }
 
@@ -188,7 +188,7 @@ function InjectTimeScript(Channel, length) { // Injects a script onto the site, 
     (document.head||document.documentElement).appendChild(script);
     script.parentNode.removeChild(script);
     document.removeEventListener('dataeventtime', (e) => datareturn = TimeScriptEvent(e.detail));
-    console.warn("TIME, LENGTH:" + datareturn); // using warn instead of log to not spam the log
+    //console.warn("TIME, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     return datareturn;
 }
 
@@ -223,7 +223,7 @@ function CheckMessage() { // Returns 1 if successful, 0 if not.
             PlaySound(4);
             return 1;
         }
-        console.log(messagestring[channelcounter]);
+        //console.log(messagestring[channelcounter]);
         console.log(messagetime[channelcounter]);
         console.log(lasttime[channelcounter]);
         if (messagestring[channelcounter].includes("joined") && ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null))) {
