@@ -268,13 +268,13 @@ function CheckMessage() { // Returns 1 if successful, 0 if not.
     //ResetVar();
 }
 */
-
+/*
 function PlayAudio(){
     var files = this.files;
     var file = URL.createObjectURL(files[0]); 
                 audio_player.src = file; 
     audio_player.play();
-  };
+  };*/
 
 function PlaySound(snumber) { // Plays audio, different sounds will be played depending on the value of the given number.
     if (snumber == 1) { // ratsignal
