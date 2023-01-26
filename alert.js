@@ -143,7 +143,7 @@ function GrabChannels() { // Gets the currently active channels and places them 
 function InjectLengthScript(Channel) { // Same as InjectScript except this one is intended to obtain how many messages there are.
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataeventlength", {detail: data}));';
+    let string = 'var lengthdata = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataeventlength", {detail: lengthdata}));';
     string = string.replace('CHANNEL', Channel);
     script.textContent = string;
     document.addEventListener('dataeventlength', function (event) {
@@ -160,6 +160,7 @@ function InjectLengthScript(Channel) { // Same as InjectScript except this one i
     setTimeout(1000);
     script.parentNode.removeChild(script);
     document.removeEventListener('dataeventlength', function (event) {
+        console.log("REMOVED DATAEVENTLENGTH");
     });
     return datareturn;
 }
@@ -167,7 +168,7 @@ function InjectLengthScript(Channel) { // Same as InjectScript except this one i
 function InjectMessageScript(Channel, length) { // Injects a script onto the site
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].message; document.dispatchEvent(new CustomEvent("dataeventmessage", {detail: data}));';
+    let string = 'var messagedata = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].message; document.dispatchEvent(new CustomEvent("dataeventmessage", {detail: messagedata}));';
     string = string.replace('CHANNEL', Channel);
     string = string.replace('LENGTH', length);
     script.textContent = string;
@@ -178,6 +179,7 @@ function InjectMessageScript(Channel, length) { // Injects a script onto the sit
     setTimeout(1000);
     script.parentNode.removeChild(script);
     document.removeEventListener('dataeventmessage', function (event) {
+        console.log("REMOVED DATAEVENTMESSAGE");
     });
     return datareturn;
 }
@@ -185,7 +187,7 @@ function InjectMessageScript(Channel, length) { // Injects a script onto the sit
 function InjectTimeScript(Channel, length) { // Injects a script onto the site
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].time; document.dispatchEvent(new CustomEvent("dataeventtime", {detail: data}));';
+    let string = 'var timedata = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].time; document.dispatchEvent(new CustomEvent("dataeventtime", {detail: timedata}));';
     string = string.replace('CHANNEL', Channel);
     string = string.replace('LENGTH', length);
     script.textContent = string;
@@ -198,6 +200,7 @@ function InjectTimeScript(Channel, length) { // Injects a script onto the site
     setTimeout(1000);
     script.parentNode.removeChild(script);
     document.removeEventListener('dataeventtime', function (event) {
+        console.log("REMOVED DATAEVENTTIME");
     });
     return datareturn;
 }
