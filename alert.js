@@ -16,16 +16,16 @@ var channelcounter = 0;
 
 setInterval(MessageHandler, 1000);
 function MessageHandler() {
-    console.log("start");
+    //console.log("start");
     let returnvalue = 0;
     let lengthchat;
     //console.log("GrabMessage Started!");
     GrabChannels();
     for (channelcounter = 0; channelcounter < activechannels.length; channelcounter++) {
-        console.log("activechannellength: " + activechannels.length);
-        console.log("channelcounter: " + channelcounter);
-        setTimeout(GrabMessage(false, 0, 0), 1000);
-        setTimeout(returnvalue = CheckForNull(channelcounter), 3000);
+        //console.log("activechannellength: " + activechannels.length);
+        //console.log("channelcounter: " + channelcounter);
+        setTimeout(GrabMessage(false, 0, 0), 3000);
+        setTimeout(returnvalue = CheckForNull(channelcounter), 6000);
         if (returnvalue == 1) {
             console.warn("active channel: " + activechannels[channelcounter]);;
             lengthchat = messagelength[channelcounter];
@@ -58,7 +58,7 @@ function GrabMessage(lengthbool, lengthsec) { // if lengthbool is true, this fun
         messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
         //setTimeout(console.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter]), 800); // using warn instead of log to not spam the log
         if (messagelength[channelcounter] != null) {
-            c//onsole.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter])
+            //console.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter])
             messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], messagelength[channelcounter]);
             messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], messagelength[channelcounter]);
         }
@@ -80,7 +80,7 @@ function CheckForNull(Channelcounter) { // Returns 0 if one of the arrays are nu
         return 0;
     }
     if ((messagelength[Channelcounter] != null && messagestring[Channelcounter]) != null && (messagetime[Channelcounter] != 0)) { 
-        console.log("No values are null!");
+        //console.log("No values are null!");
         return 1;
     }
 }
@@ -156,7 +156,7 @@ function LengthScriptEvent(datareturn) {
     //datareturn = event.detail;
     //console.warn("AFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     datareturn = parseInt(datareturn);
-    //datareturn = datareturn - 1; // decreases length by one because for some reason when I use the value from this I get an undefined error
+    datareturn = datareturn - 1; // decreases length by one because for some reason when I use the value from this I get an undefined error
     // but decreasing it by 1 seems to make it work as intended.
     //console.warn("AFTAFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     return datareturn;
