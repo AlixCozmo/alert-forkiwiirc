@@ -29,7 +29,8 @@ function MessageHandler() {
         if (returnvalue == 1) {
             console.warn("active channel: " + activechannels[channelcounter]);;
             lengthchat = messagelength[channelcounter];
-            for (let x = 0; x < 10; x++) { // Goes back 10 messages and checks for keyword match
+            for (let x = 0; x < messagelength[channelcounter]; x++) { // Goes back the max amount of messages and checks for keyword match, it should not detect same or old messages 
+                //and play sound, since it checks for timestamp.
                     lengthchat = lengthchat--;
                     console.log("lengthchat: " + lengthchat);
                     GrabMessage(true, lengthchat);
@@ -85,15 +86,6 @@ function CheckForNull(Channelcounter) { // Returns 0 if one of the arrays are nu
         return 1;
     }
 }
-
-/*function AddVariables() {
-    for (let x = 0; x < activechannels.length; x++) {
-        messagelength.length = messagelength.length++;
-        messagelength.push(words[wordnumber]);
-    }
-    return;
-}
-*/
 
 function GrabChannels() { // Gets the currently active channels and places them into the activechannels array
     //console.log("grabchannels");
@@ -231,14 +223,15 @@ function CheckMessage() { // Returns 1 if successful, 0 if not.
             return 1;
         }
         //console.log(messagestring[channelcounter]);
-        console.log(messagetime[channelcounter]);
-        console.log(lasttime[channelcounter]);
-        if (messagestring[channelcounter].includes("joined") && ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null))) {
+        //console.log(messagetime[channelcounter]);
+        //console.log(lasttime[channelcounter]);
+        /*if (messagestring[channelcounter].includes("joined") && ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null))) {
             lasttime[channelcounter] = messagetime[channelcounter];
             console.log("joined!");
             PlaySound(4);
             return 1;
         }
+        */
         /*
         
         // FUELRAT
