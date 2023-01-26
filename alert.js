@@ -140,13 +140,15 @@ function GrabChannels() { // Gets the currently active channels and places them 
 function InjectLengthScript(Channel) { // Same as InjectScript except this one is intended to obtain how many messages there are.
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataevent", {detail: data})); console.log("SENT DATA, TYPE: LENGTH")';
+    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
     string = string.replace('CHANNEL', Channel);
     script.textContent = string;
     document.addEventListener('dataevent', function (event) {
         datareturn = event.detail;
-        console.error("BEFRECEIVED!!, LENGTH:" + datareturn); // using error instead of log to not spam the log
+        //console.error("BEFRECEIVED!!, LENGTH:" + datareturn); // using error instead of log to not spam the log
         datareturn = parseInt(datareturn);
+        datareturn = datareturn--; // decreases length by one because for some reason when I use the value from this I get an undefined error
+        // but decreasing it by 1 seems to make it work as intended.
         console.warn("AFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     });
     (document.head||document.documentElement).appendChild(script);
@@ -160,7 +162,7 @@ function InjectLengthScript(Channel) { // Same as InjectScript except this one i
 function InjectScript(Channel, length, type) { // Injects a script onto the site
     let datareturn;
     let script = document.createElement('script');
-    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].TYPE; document.dispatchEvent(new CustomEvent("dataevent", {detail: data})); console.log("SENT DATA, TYPE: " + type);';
+    let string = 'var data = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].TYPE; document.dispatchEvent(new CustomEvent("dataevent", {detail: data}));';
     string = string.replace('CHANNEL', Channel);
     string = string.replace('LENGTH', length);
     string = string.replace('TYPE', type);
