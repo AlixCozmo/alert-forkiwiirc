@@ -31,6 +31,7 @@ function MessageHandler() {
             lengthchat = messagelength[channelcounter];
             for (let x = 0; x < 10; x++) { // Goes back 10 messages and checks for keyword match
                     lengthchat = lengthchat--;
+                    console.log("lengthchat: " + lengthchat);
                     GrabMessage(true, lengthchat);
                     //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
                     CheckMessage();
@@ -65,7 +66,7 @@ function GrabMessage(lengthbool, lengthsec) { // if lengthbool is true, this fun
     }
     if (lengthbool == true) {
         //console.log("grabmessage lb");
-        messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
+        //messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
         //console.log("messagelength lb: " + messagelength[channelcounter]);
         if (messagelength[channelcounter] != null) {
             messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], lengthsec);
