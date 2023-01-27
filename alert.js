@@ -18,7 +18,8 @@ setInterval(MessageHandler, 10000);
 function MessageHandler() {
     //console.log("start");
     let returnvalue = 0;
-    let lengthchat;
+    let lengthchat; // Used in for loop for checking previous messages for keyword match.
+    let loopval; // If messagelength is lower than 10, it gets set to messagelength, if messagelength is higher than 10, it gets set to 10.
     //console.log("GrabMessage Started!");
     SetTimeout(GrabChannels(), 5000);
     for (channelcounter = 0; channelcounter < activechannels.length; channelcounter++) {
@@ -29,7 +30,13 @@ function MessageHandler() {
         if (returnvalue == 1) {
             console.warn("active channel: " + activechannels[channelcounter]);;
             lengthchat = messagelength[channelcounter];
-            for (let x = 0; x < (messagelength[channelcounter] / 4); x++) { // Goes back the max amount of messages divided by 4(to increase performance)and checks for keyword match.
+            if (messagelength[channelcounter] < 10) {
+                loopval = messagelength[channelcounter];
+            }
+            if (messagelength[channelcounter] > 10) {
+                loopval = 10;
+            }
+            for (let x = 0; x < loopval; x++) { // Goes back 10 messages and checks for keyword match.
                 //it should not detect same or old messages and play sound, since it checks for timestamp.
                     lengthchat = lengthchat-1;
                     console.warn("lengthchat: " + lengthchat);
