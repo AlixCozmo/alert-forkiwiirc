@@ -21,7 +21,7 @@ function MessageHandler() {
     let lengthchat; // Used in for loop for checking previous messages for keyword match.
     let loopval; // If messagelength is lower than 10, it gets set to messagelength, if messagelength is higher than 10, it gets set to 10.
     //console.log("GrabMessage Started!");
-    SetTimeout(GrabChannels(), 5000);
+    setTimeout(GrabChannels(), 5000);
     for (channelcounter = 0; channelcounter < activechannels.length; channelcounter++) {
         //console.log("activechannellength: " + activechannels.length);
         //console.log("channelcounter: " + channelcounter);
