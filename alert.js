@@ -14,13 +14,13 @@ const messagestring = [];
 const lasttime = [];
 var channelcounter = 0;
 
-setInterval(MessageHandler, 2000);
+setInterval(MessageHandler, 10000);
 function MessageHandler() {
     //console.log("start");
     let returnvalue = 0;
     let lengthchat;
     //console.log("GrabMessage Started!");
-    GrabChannels();
+    SetTimeout(GrabChannels(), 5000);
     for (channelcounter = 0; channelcounter < activechannels.length; channelcounter++) {
         //console.log("activechannellength: " + activechannels.length);
         //console.log("channelcounter: " + channelcounter);
@@ -115,7 +115,6 @@ function GrabChannels() { // Gets the currently active channels and places them 
                 {
                     activechannels.length = activechannels.length++;
                     activechannels.push(words[wordnumber]);
-                    console.warn("active channels: " + activechannels);
                     continue;
                     
                 }
@@ -127,6 +126,7 @@ function GrabChannels() { // Gets the currently active channels and places them 
         console.warn("no channels found");
         return 0;
     } else {
+        console.warn("active channels: " + activechannels);
         return 1;
     }
 }
