@@ -197,7 +197,7 @@ function TimeScriptEvent(datareturn) {
 }
 
 function CheckMessage() { // Returns 1 if successful, 0 if not.
-        console.log("checking if string matches..");
+        //console.log("checking if string matches..");
         if (messagestring[channelcounter].includes("ratsignal") && ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null))) {
             lasttime[channelcounter] = messagetime[channelcounter];
             console.log("RAT!");
