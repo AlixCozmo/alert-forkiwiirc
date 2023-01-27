@@ -29,8 +29,8 @@ function MessageHandler() {
         if (returnvalue == 1) {
             console.warn("active channel: " + activechannels[channelcounter]);;
             lengthchat = messagelength[channelcounter];
-            for (let x = 0; x < messagelength[channelcounter]; x++) { // Goes back the max amount of messages and checks for keyword match, it should not detect same or old messages 
-                //and play sound, since it checks for timestamp.
+            for (let x = 0; x < (messagelength[channelcounter] / 4); x++) { // Goes back the max amount of messages divided by 4(to increase performance)and checks for keyword match.
+                //it should not detect same or old messages and play sound, since it checks for timestamp.
                     lengthchat = lengthchat-1;
                     console.warn("lengthchat: " + lengthchat);
                     GrabMessage(true, lengthchat);
