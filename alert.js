@@ -31,8 +31,8 @@ function MessageHandler() {
             lengthchat = messagelength[channelcounter];
             for (let x = 0; x < messagelength[channelcounter]; x++) { // Goes back the max amount of messages and checks for keyword match, it should not detect same or old messages 
                 //and play sound, since it checks for timestamp.
-                    lengthchat = lengthchat--;
-                    console.log("lengthchat: " + lengthchat);
+                    lengthchat = lengthchat-1;
+                    console.warn("lengthchat: " + lengthchat);
                     GrabMessage(true, lengthchat);
                     //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
                     CheckMessage();
@@ -142,7 +142,7 @@ function InjectLengthScript(Channel) { // This function is intended to obtain ho
     (document.head||document.documentElement).appendChild(script);
     script.parentNode.removeChild(script);
     document.removeEventListener('dataeventlength', fDataEventLength);
-    console.warn("AFT4ARR, LENGTH:" + datareturn); // using warn instead of log to not spam the log
+    //console.warn("AFT4ARR, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     return datareturn;
 }
 
