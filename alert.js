@@ -14,21 +14,21 @@ const messagestring = [];
 const lasttime = [];
 var channelcounter = 0;
 
-setInterval(MessageHandler, 10000);
+setInterval(MessageHandler, 2000);
 function MessageHandler() {
     //console.log("start");
     let returnvalue = 0;
     let lengthchat; // Used in for loop for checking previous messages for keyword match.
     let loopval; // If messagelength is lower than 10, it gets set to messagelength, if messagelength is higher than 10, it gets set to 10.
     //console.log("GrabMessage Started!");
-    setTimeout(GrabChannels(), 5000);
+    setTimeout(GrabChannels(), 100);
     for (channelcounter = 0; channelcounter < activechannels.length; channelcounter++) {
         //console.log("activechannellength: " + activechannels.length);
         //console.log("channelcounter: " + channelcounter);
-        setTimeout(GrabMessage(false, 0, 0), 3000);
-        setTimeout(returnvalue = CheckForNull(channelcounter), 6000);
+        setTimeout(GrabMessage(false, 0, 0), 250);
+        setTimeout(returnvalue = CheckForNull(channelcounter), 350);
         if (returnvalue == 1) {
-            console.warn("active channel: " + activechannels[channelcounter]);;
+            //console.warn("active channel: " + activechannels[channelcounter]);;
             lengthchat = messagelength[channelcounter];
             if (messagelength[channelcounter] < 10) {
                 loopval = messagelength[channelcounter];
@@ -39,7 +39,7 @@ function MessageHandler() {
             for (let x = 0; x < loopval; x++) { // Goes back 10 messages and checks for keyword match.
                 //it should not detect same or old messages and play sound, since it checks for timestamp.
                     lengthchat = lengthchat-1;
-                    console.warn("lengthchat: " + lengthchat);
+                    //console.warn("lengthchat: " + lengthchat);
                     GrabMessage(true, lengthchat);
                     //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
                     CheckMessage();
@@ -105,7 +105,7 @@ function GrabChannels() { // Gets the currently active channels and places them 
         text = element[elementnumber].innerText;
         words=text.split(" ");
         for(let wordnumber=0; wordnumber < words.length; wordnumber++) {
-            console.log("wordslength: " + words.length);
+            //console.log("wordslength: " + words.length);
             if (words[wordnumber].startsWith("#")) {
                 if (words[wordnumber].endsWith("a") || words[wordnumber].endsWith("b") || words[wordnumber].endsWith("c") 
                 || words[wordnumber].endsWith("d") || words[wordnumber].endsWith("e") || words[wordnumber].endsWith("f") 
@@ -133,7 +133,7 @@ function GrabChannels() { // Gets the currently active channels and places them 
         console.warn("no channels found");
         return 0;
     } else {
-        console.warn("active channels: " + activechannels);
+        //console.warn("active channels: " + activechannels);
         return 1;
     }
 }
