@@ -14,35 +14,37 @@ const messagestring = [];
 const lasttime = [];
 var channelcounter = 0;
 
-setInterval(MessageHandler, 2000);
+setInterval(MessageHandler, 1000);
 function MessageHandler() {
     //console.log("start");
     let returnvalue = 0;
     let lengthchat; // Used in for loop for checking previous messages for keyword match.
-    let loopval; // If messagelength is lower than 10, it gets set to messagelength, if messagelength is higher than 10, it gets set to 10.
+    let loopval; // If messagelength is lower than 5, it gets set to messagelength, if messagelength is higher than 5, it gets set to 5.
     //console.log("GrabMessage Started!");
     setTimeout(GrabChannels(), 100);
     for (channelcounter = 0; channelcounter < activechannels.length; channelcounter++) {
         //console.log("activechannellength: " + activechannels.length);
         //console.log("channelcounter: " + channelcounter);
-        setTimeout(GrabMessage(false, 0, 0), 250);
-        setTimeout(returnvalue = CheckForNull(channelcounter), 350);
+        setTimeout(GrabMessage(false, 0, 0), 150);
+        setTimeout(returnvalue = CheckForNull(channelcounter), 250);
         if (returnvalue == 1) {
             //console.warn("active channel: " + activechannels[channelcounter]);;
             lengthchat = messagelength[channelcounter];
-            if (messagelength[channelcounter] < 10) {
+            if (messagelength[channelcounter] < 5) {
                 loopval = messagelength[channelcounter];
             }
-            if (messagelength[channelcounter] > 10) {
-                loopval = 10;
+            if (messagelength[channelcounter] > 5) {
+                loopval = 5;
             }
             for (let x = 0; x < loopval; x++) { // Goes back 10 messages and checks for keyword match.
                 //it should not detect same or old messages and play sound, since it checks for timestamp.
                     lengthchat = lengthchat-1;
+                    console.log("START");
                     //console.warn("lengthchat: " + lengthchat);
                     GrabMessage(true, lengthchat);
                     //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
                     CheckMessage();
+                    console.log("END");
                 }
             } else {
                 console.error("Caution! One or more values are null!");
