@@ -14,8 +14,9 @@ const messagestring = [];
 const lasttime = [];
 var channelcounter = 0;
 
-setInterval(MessageHandler, 200);
+setInterval(MessageHandler, 500);
 function MessageHandler() {
+    console.time('messagehandler');
     //console.log("start");
     let returnvalue = 0;
     let lengthchat; // Used in for loop for checking previous messages for keyword match.
@@ -25,8 +26,8 @@ function MessageHandler() {
     for (channelcounter = 0; channelcounter < activechannels.length; channelcounter++) {
         //console.log("activechannellength: " + activechannels.length);
         //console.log("channelcounter: " + channelcounter);
-        setTimeout(GrabMessage(false, 0, 0), 50);
-        setTimeout(returnvalue = CheckForNull(channelcounter), 100);
+        setTimeout(GrabMessage(), 50);
+        setTimeout(returnvalue = CheckForNull(channelcounter), 150);
         if (returnvalue == 1) {
             //console.warn("active channel: " + activechannels[channelcounter]);;
             lengthchat = messagelength[channelcounter];
@@ -42,7 +43,7 @@ function MessageHandler() {
                     lengthchat = lengthchat-1;
                     //console.log("START");
                     //console.warn("lengthchat: " + lengthchat);
-                    GrabMessage(true, lengthchat);
+                    GrabMess2(lengthchat);
                     //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
                     CheckMessage();
                     //console.log("END");
@@ -61,10 +62,11 @@ function MessageHandler() {
             }
             
     }
+    console.timeEnd('messagehandler');
 }
 
-function GrabMessage(lengthbool, lengthsec) { // if lengthbool is true, this function will use the provided number from the parameter instead of length.
-    if (lengthbool == false) {
+function GrabMessage() { // Gets the messagestring, time and length.
+    console.time('grabmsg');
         //console.log("grabmessage");
         //console.warn("BEFBEF!!, LENGTH:" + messagelength[channelcounter]); // using warn instead of log to not spam the log
         messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
@@ -73,9 +75,13 @@ function GrabMessage(lengthbool, lengthsec) { // if lengthbool is true, this fun
             //console.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter])
             messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], messagelength[channelcounter]);
             messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], messagelength[channelcounter]);
-        }
     }
-    if (lengthbool == true) {
+    console.timeEnd('grabmsg');
+    return;
+}
+
+function GrabMess2(lengthsec) { // same as grabmessage, except this one accepts a length argument.
+    console.time('grabmsg2');
         //console.log("grabmessage lb");
         //messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
         //console.log("messagelength lb: " + messagelength[channelcounter]);
@@ -83,7 +89,8 @@ function GrabMessage(lengthbool, lengthsec) { // if lengthbool is true, this fun
             messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], lengthsec);
             messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], lengthsec);
         }
-    }
+        console.timeEnd('grabmsg2');
+        return;
 }
 
 function CheckForNull(Channelcounter) { // Returns 0 if one of the arrays are null
