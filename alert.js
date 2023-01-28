@@ -47,6 +47,7 @@ function MessageHandler() {
                     //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
                     CheckMessage();
                     //console.log("END");
+                    continue;
                 }
             } else {
                 console.error("Caution! One or more values are null!");
@@ -71,11 +72,9 @@ function GrabMessage() { // Gets the messagestring, time and length.
         //console.warn("BEFBEF!!, LENGTH:" + messagelength[channelcounter]); // using warn instead of log to not spam the log
         messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
         //setTimeout(console.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter]), 800); // using warn instead of log to not spam the log
-        if (messagelength[channelcounter] != null) {
-            //console.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter])
-            messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], messagelength[channelcounter]);
-            messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], messagelength[channelcounter]);
-    }
+        //console.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter])
+        messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], messagelength[channelcounter]);
+        messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], messagelength[channelcounter]);
     console.timeEnd('grabmsg');
     return;
 }
@@ -85,10 +84,8 @@ function GrabMess2(lengthsec) { // same as grabmessage, except this one accepts 
         //console.log("grabmessage lb");
         //messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
         //console.log("messagelength lb: " + messagelength[channelcounter]);
-        if (messagelength[channelcounter] != null) {
-            messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], lengthsec);
-            messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], lengthsec);
-        }
+        messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], lengthsec);
+        messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], lengthsec);
         console.timeEnd('grabmsg2');
         return;
 }
