@@ -1,4 +1,4 @@
-Alert for Kiwi IRC.
+<b>Alert for Kiwi IRC.</b>
 
 READ THIS: If you are not a fuelrat then you will most likely not have any use for this.
 
