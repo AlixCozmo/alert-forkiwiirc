@@ -213,32 +213,45 @@ function TimeScriptEvent(datareturn) {
 
 function CheckMessage() { // Returns 1 if successful, 0 if not.
         //console.log("checking if string matches..");
-        console.log("LAST:" + lasttime[channelcounter]);
-        console.log("MESSAGE: " + messagetime[channelcounter])
-        if (messagestring[channelcounter].includes("code red") && messagestring[channelcounter].includes("ratsignal") && (messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
-            lasttime[channelcounter] = messagetime[channelcounter];
-            console.log("CODE RED!");
-            PlaySound(3);
-            return 1;
+        //console.log("LAST:" + lasttime[channelcounter]);
+        //console.log("MESSAGE: " + messagetime[channelcounter])
+        if (messagestring[channelcounter].includes("code red") && messagestring[channelcounter].includes("ratsignal")) {
+            if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)){
+                //console.log(lasttime);
+                lasttime[channelcounter] = messagetime[channelcounter];
+                console.log("CODE RED!");
+                //console.log(messagestring[channelcounter]);
+                //console.log(activechannels[channelcounter]);
+                PlaySound(3);
+                return 1;
+            }
         }
-        if (messagestring[channelcounter].includes("ratsignal") && (messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
-            lasttime[channelcounter] = messagetime[channelcounter];
-            console.log("RAT!");
-            PlaySound(1);
-            return 1;
+        if (messagestring[channelcounter].includes("ratsignal")) {
+            if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
+                lasttime[channelcounter] = messagetime[channelcounter];
+                console.log("RAT!");
+                PlaySound(1);
+                return 1;
+            }
         }
-        if (messagestring[channelcounter].includes("hatsignal") && (messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
-            lasttime[channelcounter] = messagetime[channelcounter];
-            console.log("HAT!");
-            PlaySound(2);
-            return 1;
+        if (messagestring[channelcounter].includes("hatsignal")) {
+            if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
+                lasttime[channelcounter] = messagetime[channelcounter];
+                console.log("HAT!");
+                PlaySound(2);
+                return 1;
+            }
         }
-        if (messagestring[channelcounter].includes("test") && (messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
-            lasttime[channelcounter] = messagetime[channelcounter];
-            console.log("test!");
-            PlaySound(4);
-            return 1;
+        /*
+        if (messagestring[channelcounter].includes("test")) {
+            if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
+                lasttime[channelcounter] = messagetime[channelcounter];
+                console.log("test!");
+                PlaySound(4);
+                return 1;
+            }
         }
+        */
         //console.log(messagestring[channelcounter]);
         //console.log(messagetime[channelcounter]);
         //console.log(lasttime[channelcounter]);
@@ -272,19 +285,9 @@ function CheckMessage() { // Returns 1 if successful, 0 if not.
         return 0;
     }
 
-/*function MessageHandler() {
-    GrabMessage();
-    CheckMessage();
-    //ResetVar();
+function SaveData(data) {
+    browser.storage.local.set(data);
 }
-*/
-/*
-function PlayAudio(){
-    var files = this.files;
-    var file = URL.createObjectURL(files[0]); 
-                audio_player.src = file; 
-    audio_player.play();
-  };*/
 
 function PlaySound(snumber) { // Plays audio, different sounds will be played depending on the value of the given number.
     console.log("LENGTHSUCCESS: + ", messagelength[channelcounter]);
