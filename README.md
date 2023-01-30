@@ -12,6 +12,8 @@ Chrome: To install, simply download the latest release, unzip the file and then 
 
 Firefox:
 
+NOTE: The firefox version is completely untested, it may or may not work.
+
 Method 1:
 
 To install, simply download the latest release, unzip the file. Go to about:debugging in the address bar, then click on "this firefox". After that click on "load temporary extension" then choose any file inside the unzipped folder.
