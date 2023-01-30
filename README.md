@@ -2,9 +2,7 @@
 
 READ THIS: If you are not a fuelrat then you will most likely not have any use for this.
 
-This extension plays alert sounds when a ratsignal, hatsignal or a code red ratsignal shows up in chat.
-
-This extension is for those people who want a different sound than the default kiwi sound.
+This extension plays alert sounds when a ratsignal, hatsignal or a code red ratsignal shows up in chat. It's for those people(me) who want a different sound than the default kiwi sound.
 
 The extension does not currently support custom highlights or custom sounds, unless you are willing to modify the code to do that.
 
