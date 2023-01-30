@@ -288,7 +288,7 @@ function PlayAudio(){
 
 function PlaySound(snumber) { // Plays audio, different sounds will be played depending on the value of the given number.
     console.log("LENGTHSUCCESS: + ", messagelength[channelcounter]);
-    CurrentTime();
+    //CurrentTime();
     console.time('playsound');
     if (snumber == 1) { // ratsignal
         var audio1 = new Audio();
@@ -316,10 +316,10 @@ function PlaySound(snumber) { // Plays audio, different sounds will be played de
     }
     console.timeEnd('playsound');
 }
-
+/*
 function CurrentTime() {
     let curDate = new Date();
     let curtime = curDate.getHours() + ":" + curDate.getMinutes() + ":" + curDate.getSeconds();
     console.log(curtime);
     return;
-}
+}*/
