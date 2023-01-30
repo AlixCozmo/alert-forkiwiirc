@@ -29,7 +29,7 @@ function MessageHandler() {
         GrabMessage();
         returnvalue = CheckForNull(channelcounter);
         if (returnvalue == 1) {
-            console.warn("active channel: " + activechannels[channelcounter]);;
+            //console.warn("active channel: " + activechannels[channelcounter]);;
             lengthchat = messagelength[channelcounter];
             if (messagelength[channelcounter] < 5) {
                 loopval = messagelength[channelcounter];
@@ -42,8 +42,8 @@ function MessageHandler() {
                 //it should not detect same or old messages and play sound, since it checks for timestamp.
                     //console.log("START");
                     //console.warn("lengthchat: " + lengthchat);
-                    GrabMess2(lengthchat);
-                    console.log(messagestring[channelcounter]);
+                    GrabMessage2(lengthchat);
+                    //console.log(messagestring[channelcounter]);
                     //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
                     CheckMessage();
                     //console.log("END");
@@ -80,7 +80,7 @@ function GrabMessage() { // Gets the messagestring, time and length.
     return;
 }
 
-function GrabMess2(lengthsec) { // same as grabmessage, except this one accepts a length argument.
+function GrabMessage2(lengthsec) { // same as grabmessage, except this one accepts a length argument.
     //console.time('grabmsg2');
     //console.log("grabmessage lb");
     //messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
