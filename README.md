@@ -8,7 +8,7 @@ The extension does not currently support custom highlights or custom sounds, unl
 
 How to install:
 
-Chrome: To install, simply download the latest release, unzip the file and then in chrome://extensions enable programmer mode, click import uncompressed extension and then select the unzipped folder.
+Chrome: To install, simply download the latest release, unzip the file and then in chrome://extensions enable programmer mode, click import uncompressed extension and select the unzipped folder.
 
 Firefox:
 
