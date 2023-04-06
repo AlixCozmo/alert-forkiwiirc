@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Alert for Kiwi IRC",
   "description": "Plays alert sounds when ratsignal, hatsignal or a code red shows up in chat.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "DavidByggerBilar",
   "homepage_url": "https://github.com/DavidByggerBilar/alert",
 
