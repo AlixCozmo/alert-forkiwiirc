@@ -25,9 +25,3 @@ Method 2:
 You can also install the extension with the .xpi file, though this may not work on regular firefox installations as it is not signed. It should work on firefox developer edition though.
 
 To do that, do this: go into about:addons in firefox, click on the cogwheel and select install addon from file, then choose the .xpi file.
-
-
-Known bugs:
-
-Sometimes it won't play the sound, but plays it after a new message has been sent in the channel, even though it should have played the sound already.
-Seems to mostly happen when you have just joined the channel. - Needs more testing.
