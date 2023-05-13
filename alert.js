@@ -13,14 +13,13 @@ const messagetime = [];
 const messagestring = [];
 const lasttime = [];
 var channelcounter = 0;
-
 setInterval(MessageHandler, 500);
 function MessageHandler() {
     //console.time('messagehandler');
     //console.log("start");
     let returnvalue = 0;
     let lengthchat; // Used in for loop for checking previous messages for keyword match.
-    let loopval; // If messagelength is lower than 3, it gets set to messagelength, if messagelength is higher than 3, it gets set to 3.
+    let loopval; // If messagelength is lower than 10, it gets set to messagelength, if messagelength is higher than 10, it gets set to 10.
     //console.log("GrabMessage Started!");
     GrabChannels();
     for (channelcounter = 0; channelcounter < activechannels.length; channelcounter++) {
@@ -31,13 +30,13 @@ function MessageHandler() {
         if (returnvalue == 1) {
             //console.warn("active channel: " + activechannels[channelcounter]);;
             lengthchat = messagelength[channelcounter];
-            if (messagelength[channelcounter] < 3) {
+            if (messagelength[channelcounter] < 10) {
                 loopval = messagelength[channelcounter];
             }
-            if (messagelength[channelcounter] > 3) {
-                loopval = 3;
+            if (messagelength[channelcounter] > 10) {
+                loopval = 10;
             }
-            for (let x = 0; x < loopval; x++) { // Goes back 5 messages and checks for keyword match.
+            for (let x = 0; x < loopval; x++) { // Goes back 10 messages and checks for keyword match.
                 //console.log("start1");
                 //it should not detect same or old messages and play sound, since it checks for timestamp.
                     //console.log("START");
@@ -297,6 +296,8 @@ function PlaySound(snumber) { // Plays audio, different sounds will be played de
     console.log("MS", messagestring);
     console.log("LT", lasttime);
     console.log("CC", channelcounter);
+    new Date().getTime()
+    console.log("TIME", Date);
     //CurrentTime();
     console.time('playsound');
     if (snumber == 1) { // ratsignal
