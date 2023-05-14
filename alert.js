@@ -289,15 +289,13 @@ function SaveData(data) {
 }
 
 function PlaySound(snumber) { // Plays audio, different sounds will be played depending on the value of the given number.
-    console.log("LENGTHSUCCESS: + ", messagelength[channelcounter]);
-    console.log("AC", activechannels);
-    console.log("ML", messagelength);
-    console.log("MT", messagetime);
-    console.log("MS", messagestring);
-    console.log("LT", lasttime);
-    console.log("CC", channelcounter);
-    new Date().getTime()
-    console.log("TIME", Date);
+    //console.log("LENGTHSUCCESS: + ", messagelength[channelcounter]);
+    //console.log("AC", activechannels);
+    //console.log("ML", messagelength);
+    //console.log("MT", messagetime);
+    //console.log("MS", messagestring);
+    //console.log("LT", lasttime);
+    //console.log("CC", channelcounter);
     //CurrentTime();
     console.time('playsound');
     if (snumber == 1) { // ratsignal
