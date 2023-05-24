@@ -29,4 +29,4 @@ To do that, do this: go into about:addons in firefox, click on the cogwheel and 
 
 Known issues:
 
-Plays alert twice if there is one in the chat history and you join a second channel after that.
+* Plays alert twice if there is one in the chat history and you join a second channel after that. Only happens once.
