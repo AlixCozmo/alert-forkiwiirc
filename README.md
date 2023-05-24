@@ -25,3 +25,8 @@ Method 2:
 You can also install the extension with the .xpi file, though this may not work on regular firefox installations as it is not signed. It should work on firefox developer edition though.
 
 To do that, do this: go into about:addons in firefox, click on the cogwheel and select install addon from file, then choose the .xpi file.
+
+
+Known issues:
+
+Plays alert twice if there is one in the chat history and you join a second channel after that.
