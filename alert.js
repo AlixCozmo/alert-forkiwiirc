@@ -44,12 +44,12 @@ function MessageHandler() {
                 //it should not detect same or old messages and play sound, since it checks for timestamp.
                 //console.log("START");
                 //console.warn("lengthchat: " + lengthchat);
-                GrabMessage2(x);
+                GrabMessage2(lengthchat);
                 //console.log(messagestring[channelcounter]);
                 //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
                 CheckMessage();
                 //console.log("END");
-                //lengthchat = lengthchat - 1;
+                lengthchat = lengthchat - 1;
                 continue;
             }
         } else {
@@ -85,7 +85,6 @@ function GrabMessage() {
 }
 
 function GrabMessage2(lengthsec) {
-    lengthsec = lengthsec + 1; // this apparently fixed a bug(I THINK????)
     // same as grabmessage, except this one accepts a length argument.
     // lengthsec is the message number.
     // meaning that if lengthsec is 5, it will get the 5th message. (i think)
