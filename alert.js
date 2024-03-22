@@ -94,7 +94,6 @@ function GrabMessage2(lengthsec) {
     //console.log("messagelength lb: " + messagelength[channelcounter]);
     messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], lengthsec);
     messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], lengthsec);
-    console.log(messagestring)
     //console.timeEnd('grabmsg2');
     return;
 }
@@ -160,9 +159,8 @@ function InjectLengthScript(Channel) {
     script.parentNode.removeChild(script);
     document.removeEventListener('dataeventlength', fDataEventLength);
     //console.warn("AFT4ARR, LENGTH:" + datareturn); // using warn instead of log to not spam the log
-    //console.warn(datareturn)
     //if (datareturn >= 0) {
-    //    datareturn = datareturn + 1; // decreases length by one because the length counts from 1, but the array counts from 0.
+    //    datareturn = datareturn - 1; // decreases length by one because the length counts from 1, but the array counts from 0.
     //};
     return datareturn;
 }
@@ -173,6 +171,7 @@ function LengthScriptEvent(datareturn) {
     datareturn = datareturn - 1;
     // decreases length by one because for some reason when I use the value from this I get an undefined error
     // but decreasing it by 1 seems to make it work as intended.
+    //console.log(datareturn)
     return datareturn;
 }
 
@@ -226,7 +225,6 @@ function TimeScriptEvent(datareturn) {
 }
 
 function CheckMessage() {
-    //console.log(messagestring[channelcounter]);
     // Returns 1 if successful, 0 if not.
     //console.log("checking if string matches..");
     //console.log("LAST:" + lasttime[channelcounter]);
@@ -235,7 +233,6 @@ function CheckMessage() {
         if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
             //console.log(lasttime);
             lasttime[channelcounter] = messagetime[channelcounter];
-            console.log((messagestring[channelcounter]));
             console.log("CODE RED!");
             //console.log(messagestring[channelcounter]);
             //console.log(activechannels[channelcounter]);
@@ -246,7 +243,6 @@ function CheckMessage() {
     if (messagestring[channelcounter].includes("ratsignal")) {
         if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
             lasttime[channelcounter] = messagetime[channelcounter];
-            console.log((messagestring[channelcounter]));
             console.log("RAT!");
             PlaySound(1);
             return 1;
@@ -255,24 +251,21 @@ function CheckMessage() {
     if (messagestring[channelcounter].includes("hatsignal")) {
         if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
             lasttime[channelcounter] = messagetime[channelcounter];
-            console.log((messagestring[channelcounter]));
             console.log("HAT!");
             PlaySound(2);
             return 1;
         }
     }
     /*
-        if (messagestring[channelcounter].includes("a")) {
+        if (messagestring[channelcounter].includes("test")) {
             if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
                 lasttime[channelcounter] = messagetime[channelcounter];
-                console.log((messagestring[channelcounter]));
                 console.log("test!");
                 PlaySound(4);
                 return 1;
             }
         }
         */
-        
     //console.log(messagestring[channelcounter]);
     //console.log(messagetime[channelcounter]);
     //console.log(lasttime[channelcounter]);
