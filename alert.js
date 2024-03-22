@@ -70,7 +70,6 @@ function MessageHandler() {
 }
 
 function GrabMessage() {
-    // this function gets the latest message from the active channel(the channel the extension is currently on sifting through.)
     // Gets the messagestring, time and length.
     //console.time('grabmsg');
     //console.log("grabmessage");
@@ -86,8 +85,6 @@ function GrabMessage() {
 
 function GrabMessage2(lengthsec) {
     // same as grabmessage, except this one accepts a length argument.
-    // lengthsec is the message number.
-    // meaning that if lengthsec is 5, it will get the 5th message. (i think)
     //console.time('grabmsg2');
     //console.log("grabmessage lb");
     //messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
@@ -172,7 +169,6 @@ function LengthScriptEvent(datareturn) {
 }
 
 function InjectMessageScript(Channel, length) {
-    console.log("Channel: " + Channel + " Length: " + length)
     // Injects a script onto the site, this one is intended to get a message
     let datareturn;
     let fDataEventMessage = function(e) {
