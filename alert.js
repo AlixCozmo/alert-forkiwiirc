@@ -159,9 +159,6 @@ function InjectLengthScript(Channel) {
     script.parentNode.removeChild(script);
     document.removeEventListener('dataeventlength', fDataEventLength);
     //console.warn("AFT4ARR, LENGTH:" + datareturn); // using warn instead of log to not spam the log
-    if (datareturn >= 0) {
-        datareturn = datareturn - 1; // decreases length by one because the length counts from 1, but the array counts from 0.
-    };
     return datareturn;
 }
 
@@ -175,7 +172,7 @@ function LengthScriptEvent(datareturn) {
 }
 
 function InjectMessageScript(Channel, length) {
-    //console.log("Channel: " + Channel + " Length: " + length)
+    console.log("Channel: " + Channel + " Length: " + length)
     // Injects a script onto the site, this one is intended to get a message
     let datareturn;
     let fDataEventMessage = function(e) {
