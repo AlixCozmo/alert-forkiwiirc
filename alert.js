@@ -44,12 +44,12 @@ function MessageHandler() {
                 //it should not detect same or old messages and play sound, since it checks for timestamp.
                 //console.log("START");
                 //console.warn("lengthchat: " + lengthchat);
-                GrabMessage2(lengthchat);
+                GrabMessage2(x);
                 //console.log(messagestring[channelcounter]);
                 //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
                 CheckMessage();
                 //console.log("END");
-                lengthchat = lengthchat - 1;
+                //lengthchat = lengthchat - 1;
                 continue;
             }
         } else {
@@ -70,6 +70,7 @@ function MessageHandler() {
 }
 
 function GrabMessage() {
+    // this function gets the latest message from the active channel(the channel the extension is currently on sifting through.)
     // Gets the messagestring, time and length.
     //console.time('grabmsg');
     //console.log("grabmessage");
@@ -84,13 +85,17 @@ function GrabMessage() {
 }
 
 function GrabMessage2(lengthsec) {
+    lengthsec = lengthsec + 1; // this apparently fixed a bug(I THINK????)
     // same as grabmessage, except this one accepts a length argument.
+    // lengthsec is the message number.
+    // meaning that if lengthsec is 5, it will get the 5th message. (i think)
     //console.time('grabmsg2');
     //console.log("grabmessage lb");
     //messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
     //console.log("messagelength lb: " + messagelength[channelcounter]);
     messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], lengthsec);
     messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], lengthsec);
+    console.log(messagestring)
     //console.timeEnd('grabmsg2');
     return;
 }
@@ -156,6 +161,10 @@ function InjectLengthScript(Channel) {
     script.parentNode.removeChild(script);
     document.removeEventListener('dataeventlength', fDataEventLength);
     //console.warn("AFT4ARR, LENGTH:" + datareturn); // using warn instead of log to not spam the log
+    //console.warn(datareturn)
+    //if (datareturn >= 0) {
+    //    datareturn = datareturn + 1; // decreases length by one because the length counts from 1, but the array counts from 0.
+    //};
     return datareturn;
 }
 
@@ -169,6 +178,7 @@ function LengthScriptEvent(datareturn) {
 }
 
 function InjectMessageScript(Channel, length) {
+    //console.log("Channel: " + Channel + " Length: " + length)
     // Injects a script onto the site, this one is intended to get a message
     let datareturn;
     let fDataEventMessage = function(e) {
@@ -217,6 +227,7 @@ function TimeScriptEvent(datareturn) {
 }
 
 function CheckMessage() {
+    //console.log(messagestring[channelcounter]);
     // Returns 1 if successful, 0 if not.
     //console.log("checking if string matches..");
     //console.log("LAST:" + lasttime[channelcounter]);
@@ -225,6 +236,7 @@ function CheckMessage() {
         if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
             //console.log(lasttime);
             lasttime[channelcounter] = messagetime[channelcounter];
+            console.log((messagestring[channelcounter]));
             console.log("CODE RED!");
             //console.log(messagestring[channelcounter]);
             //console.log(activechannels[channelcounter]);
@@ -235,6 +247,7 @@ function CheckMessage() {
     if (messagestring[channelcounter].includes("ratsignal")) {
         if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
             lasttime[channelcounter] = messagetime[channelcounter];
+            console.log((messagestring[channelcounter]));
             console.log("RAT!");
             PlaySound(1);
             return 1;
@@ -243,21 +256,24 @@ function CheckMessage() {
     if (messagestring[channelcounter].includes("hatsignal")) {
         if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
             lasttime[channelcounter] = messagetime[channelcounter];
+            console.log((messagestring[channelcounter]));
             console.log("HAT!");
             PlaySound(2);
             return 1;
         }
     }
     /*
-        if (messagestring[channelcounter].includes("test")) {
+        if (messagestring[channelcounter].includes("a")) {
             if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
                 lasttime[channelcounter] = messagetime[channelcounter];
+                console.log((messagestring[channelcounter]));
                 console.log("test!");
                 PlaySound(4);
                 return 1;
             }
         }
         */
+        
     //console.log(messagestring[channelcounter]);
     //console.log(messagetime[channelcounter]);
     //console.log(lasttime[channelcounter]);
