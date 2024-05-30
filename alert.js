@@ -7,79 +7,87 @@ var messagetimefuel = 0;
 var messagelengthchat;
 var messagelengthfuel;
 */
-const activechannels = [];
+//const activechannels = [];
 const messagelength = [];
 const messagetime = [];
 const messagestring = [];
 const lasttime = [];
+let networks = [];
+console.log("INIT");
 var channelcounter = 0;
+var networkcounter = 0;
 setInterval(MessageHandler, 500);
 function MessageHandler() {
     //console.time('messagehandler');
-    //console.log("start");
     let returnvalue = 0;
     let lengthchat;
     // Used in for loop for checking previous messages for keyword match.
     let loopval;
+    let count = 0;
     // If messagelength is lower than 5, it gets set to messagelength, if messagelength is higher than 5, it gets set to 5.
     //console.log("GrabMessage Started!");
-    GrabChannels();
-    for (channelcounter = 0; channelcounter < activechannels.length; channelcounter++) {
-        //console.log("activechannellength: " + activechannels.length);
-        //console.log("channelcounter: " + channelcounter);
-        GrabMessage();
-        returnvalue = CheckForNull(channelcounter);
-        if (returnvalue == 1) {
-            //console.warn("active channel: " + activechannels[channelcounter]);;
-            lengthchat = messagelength[channelcounter];
-            if (messagelength[channelcounter] < 5) {
-                loopval = messagelength[channelcounter];
-            }
-            if (messagelength[channelcounter] > 5) {
-                loopval = 5;
-            }
-            for (let x = 0; x < loopval; x++) {
-                // Goes back 5 messages and checks for keyword match.
-                //console.log("start1");
-                //it should not detect same or old messages and play sound, since it checks for timestamp.
-                //console.log("START");
-                //console.warn("lengthchat: " + lengthchat);
-                GrabMessage2(lengthchat);
-                //console.log(messagestring[channelcounter]);
-                //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
-                CheckMessage();
-                //console.log("END");
-                lengthchat = lengthchat - 1;
-                continue;
-            }
-        } else {
-            console.error("Caution! One or more values are null!");
-            if (messagestring[channelcounter] == null) {
-                console.error("messagestring is null");
-            }
-            if (messagetime[channelcounter] == 0) {
-                console.error("messagetime is 0");
-            }
-            if (messagelength[channelcounter] == null) {
-                console.error("messagelength is null");
-            }
-        }
-
+    networks = GrabChannels();
+    for (let item of networks) {
+        count++;
     }
-    //console.timeEnd('messagehandler');
+    console.log(count);
+    for (networkcounter = 0; networkcounter < networks.length; networkcounter++) {
+        for (channelcounter = 0; channelcounter < networks[networkcounter].channels.length; channelcounter++) {
+            //console.log("channelcounter: " + channelcounter);
+            //console.log("Channel: " + networks[networkcounter].channels[channelcounter] + " Network: " + networks[networkcounter].network;
+            GrabMessage(networks[networkcounter].channels[channelcounter]);
+            returnvalue = CheckForNull(channelcounter);
+            if (returnvalue == 1) {
+                lengthchat = messagelength[channelcounter];
+                if (messagelength[channelcounter] < 5) {
+                    loopval = messagelength[channelcounter];
+                }
+                if (messagelength[channelcounter] > 5) {
+                    loopval = 5;
+                }
+                for (let x = 0; x < loopval; x++) {
+                    // Goes back 5 messages and checks for keyword match.
+                    //console.log("start1");
+                    //it should not detect same or old messages and play sound, since it checks for timestamp.
+                    //console.log("START");
+                    //console.warn("lengthchat: " + lengthchat);
+                    GrabMessage2(lengthchat);
+                    //console.log(messagestring[channelcounter]);
+                    //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
+                    CheckMessage();
+                    //console.log("END");
+                    lengthchat = lengthchat - 1;
+                    continue;
+                }
+            } else {
+                console.error("Caution! One or more values are null!");
+                if (messagestring[channelcounter] == null) {
+                    console.error("messagestring is null");
+                }
+                if (messagetime[channelcounter] == 0) {
+                    console.error("messagetime is 0");
+                }
+                if (messagelength[channelcounter] == null) {
+                    console.error("messagelength is null");
+                }
+            }
+
+        }
+        //console.timeEnd('messagehandler');
+    }
 }
 
-function GrabMessage() {
+function GrabMessage(channel) {
     // this function gets the latest message from the active channel(the channel the extension is currently on sifting through.)
     // Gets the messagestring, time and length.
     //console.time('grabmsg');
     //console.log("grabmessage");
     //console.warn("BEFBEF!!, LENGTH:" + messagelength[channelcounter]); // using warn instead of log to not spam the log
-    messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
+    messagelength[channelcounter] = InjectLengthScript(channel);
     //setTimeout(console.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter]), 800); // using warn instead of log to not spam the log
     //console.warn("AFTAFT!!, LENGTH:" + messagelength[channelcounter])
-    messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], messagelength[channelcounter]);
-    messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], messagelength[channelcounter]);
+    messagestring[channelcounter] = InjectMessageScript(channel, messagelength[channelcounter]);
+    messagetime[channelcounter] = InjectTimeScript(channel, messagelength[channelcounter]);
     //console.timeEnd('grabmsg');
     return;
 }
@@ -92,8 +100,8 @@ function GrabMessage2(lengthsec) {
     //console.log("grabmessage lb");
     //messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
     //console.log("messagelength lb: " + messagelength[channelcounter]);
-    messagestring[channelcounter] = InjectMessageScript(activechannels[channelcounter], lengthsec);
-    messagetime[channelcounter] = InjectTimeScript(activechannels[channelcounter], lengthsec);
+    messagestring[channelcounter] = InjectMessageScript(networks[networkcounter][channelcounter], lengthsec);
+    messagetime[channelcounter] = InjectTimeScript(networks[networkcounter][channelcounter], lengthsec);
     //console.timeEnd('grabmsg2');
     return;
 }
@@ -109,25 +117,32 @@ function CheckForNull(Channelcounter) {
         return 1;
     }
 }
-
+/*
 function GrabChannels() {
     // Gets the currently active channels and places them into the activechannels array
     //console.log("grabchannels");
-    let element = document.getElementsByClassName("kiwi-statebrowser-channel-name");
+    let element = document.querySelectorAll(".kiwi-statebrowser-network-header *");
     //let element=document.getElementsByClassName("kiwi-statebrowser kiwi-theme-bg");
     let text = "";
     let words = "";
-    activechannels.length = 0;
+    let networkName = "";
     // empties the array so that a bunch of same data doesn't flood the array.
     for (let elementnumber = 0; elementnumber < element.length; elementnumber++) {
         text = element[elementnumber].innerText;
         words = text.split(" ");
+        let networkName = extractNetworkName(words);
+         // Initialize network in networks object if it doesn't exist.
+        if (!networks[networkName]) {
+            networks[networkName] = [];
+        }
+        networks[networkName].length = 0;
         for (let wordnumber = 0; wordnumber < words.length; wordnumber++) {
             //console.log("wordslength: " + words.length);
             if (words[wordnumber].startsWith("#")) {
                 if (words[wordnumber].endsWith("a") || words[wordnumber].endsWith("b") || words[wordnumber].endsWith("c") || words[wordnumber].endsWith("d") || words[wordnumber].endsWith("e") || words[wordnumber].endsWith("f") || words[wordnumber].endsWith("g") || words[wordnumber].endsWith("h") || words[wordnumber].endsWith("i") || words[wordnumber].endsWith("j") || words[wordnumber].endsWith("k") || words[wordnumber].endsWith("l") || words[wordnumber].endsWith("m") || words[wordnumber].endsWith("n") || words[wordnumber].endsWith("o") || words[wordnumber].endsWith("p") || words[wordnumber].endsWith("q") || words[wordnumber].endsWith("r") || words[wordnumber].endsWith("s") || words[wordnumber].endsWith("t") || words[wordnumber].endsWith("u") || words[wordnumber].endsWith("v") || words[wordnumber].endsWith("w") || words[wordnumber].endsWith("x") || words[wordnumber].endsWith("y") || words[wordnumber].endsWith("z") || words[wordnumber].endsWith("0") || words[wordnumber].endsWith("1") || words[wordnumber].endsWith("2") || words[wordnumber].endsWith("3") || words[wordnumber].endsWith("4") || words[wordnumber].endsWith("5") || words[wordnumber].endsWith("6") || words[wordnumber].endsWith("7") || words[wordnumber].endsWith("8") || words[wordnumber].endsWith("9")) {
-                    activechannels.length = activechannels.length++;
-                    activechannels.push(words[wordnumber]);
+                    //activechannels.length = activechannels.length++;
+                    //activechannels.push(words[wordnumber]);
+                    networks[networkName].push(words[wordnumber]);
                     continue;
 
                 }
@@ -135,7 +150,7 @@ function GrabChannels() {
         }
     }
 
-    if (activechannels.length == 0) {
+    if (networks[networkName].length == 0) {
         console.warn("no channels found");
         return 0;
     } else {
@@ -143,6 +158,46 @@ function GrabChannels() {
         return 1;
     }
 }
+*/
+function GrabChannels() {
+    let availNetworks = [];
+    let networkElement = document.querySelectorAll(".kiwi-statebrowser-network-header");
+    for (networkElement of networkElement) {
+        let elements = networkElement.parentNode.querySelectorAll("*");
+        let networkName = extractNetworkName(networkElement.innerText.split(" "));
+        let networkChannels = [];
+
+        for (let element of elements) {
+            if (element.className !== "kiwi-statebrowser-buffers") continue;
+            let text = element.innerText;
+            let words = text.split("\n");
+            //if (!availNetworks[networkName]) {
+            //    availNetworks[networkName] = [];
+            //}
+
+            for (let word of words) {
+                if (/[\\/]/g.test(word)) continue;
+                if (word.startsWith("#") && /[a-z0-9]$/.test(word)) {
+                    //if (!availNetworks[networkName].includes(word)) {
+                    //    availNetworks[networkName].push(word);
+                    //}
+                    networkChannels.push(word);
+                }
+            }
+        }
+        availNetworks.push({ network: networkName, channels: networkChannels});
+    }
+    return availNetworks;
+}
+
+function extractNetworkName(words) {
+    console.log("extractnetworkname");
+    for (let wordnumber = 0; wordnumber < words.length; wordnumber++) {
+        if (/[a-z0-9]$/.test(words[wordnumber])) {
+            return words[wordnumber];
+        }
+    }
+};
 
 function InjectLengthScript(Channel) {
     // This function is intended to obtain how many messages there are.
@@ -151,8 +206,9 @@ function InjectLengthScript(Channel) {
         datareturn = LengthScriptEvent(e.detail)
     };
     let script = document.createElement('script');
-    let string = 'var lengthdata = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataeventlength", {detail: lengthdata}));';
+    let string = 'var lengthdata = window.kiwi.state.getBufferByName(NETWORK, "CHANNEL").messagesObj.messages.length; document.dispatchEvent(new CustomEvent("dataeventlength", {detail: lengthdata}));';
     string = string.replace('CHANNEL', Channel);
+    string = string.replace('NETWORK', networkcounter+1);
     script.textContent = string;
     document.addEventListener('dataeventlength', fDataEventLength);
     (document.head || document.documentElement).appendChild(script);
@@ -168,7 +224,9 @@ function InjectLengthScript(Channel) {
 function LengthScriptEvent(datareturn) {
     //console.warn("AFTRECEIVED!!, LENGTH:" + datareturn); // using warn instead of log to not spam the log
     datareturn = parseInt(datareturn);
-    datareturn = datareturn - 1;
+    if (datareturn > 0) {
+        datareturn = datareturn - 1;
+    }
     // decreases length by one because for some reason when I use the value from this I get an undefined error
     // but decreasing it by 1 seems to make it work as intended.
     //console.log(datareturn)
@@ -183,9 +241,10 @@ function InjectMessageScript(Channel, length) {
         datareturn = MessageScriptEvent(e.detail)
     };
     let script = document.createElement('script');
-    let string = 'var messagedata = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].message; document.dispatchEvent(new CustomEvent("dataeventmessage", {detail: messagedata}));';
+    let string = 'var messagedata = window.kiwi.state.getBufferByName(NETWORK, "CHANNEL").messagesObj.messages[LENGTH].message; document.dispatchEvent(new CustomEvent("dataeventmessage", {detail: messagedata}));';
     string = string.replace('CHANNEL', Channel);
     string = string.replace('LENGTH', length);
+    string = string.replace('NETWORK', networkcounter+1);
     script.textContent = string;
     document.addEventListener('dataeventmessage', fDataEventMessage);
     (document.head || document.documentElement).appendChild(script);
@@ -207,9 +266,10 @@ function InjectTimeScript(Channel, length) {
         datareturn = TimeScriptEvent(e.detail)
     };
     let script = document.createElement('script');
-    let string = 'var timedata = window.kiwi.state.getBufferByName(1, "CHANNEL").messagesObj.messages[LENGTH].time; document.dispatchEvent(new CustomEvent("dataeventtime", {detail: timedata}));';
+    let string = 'var timedata = window.kiwi.state.getBufferByName(NETWORK, "CHANNEL").messagesObj.messages[LENGTH].time; document.dispatchEvent(new CustomEvent("dataeventtime", {detail: timedata}));';
     string = string.replace('CHANNEL', Channel);
     string = string.replace('LENGTH', length);
+    string = string.replace('NETWORK', networkcounter+1);
     script.textContent = string;
     document.addEventListener('dataeventtime', fDataEventTime);
     (document.head || document.documentElement).appendChild(script);
@@ -256,8 +316,17 @@ function CheckMessage() {
             return 1;
         }
     }
-    /*
-        if (messagestring[channelcounter].includes("test")) {
+    
+        if (messagestring[channelcounter].includes("the rat king has arrived")) {
+            if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
+                lasttime[channelcounter] = messagetime[channelcounter];
+                console.log("test!");
+                PlaySound(4);
+                return 1;
+            }
+        }
+        /*
+        if (messagestring[channelcounter].includes("the")) {
             if ((messagetime[channelcounter] > lasttime[channelcounter]) || (lasttime[channelcounter] == null)) {
                 lasttime[channelcounter] = messagetime[channelcounter];
                 console.log("test!");
