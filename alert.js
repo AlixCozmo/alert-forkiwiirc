@@ -27,10 +27,6 @@ function MessageHandler() {
     // If messagelength is lower than 5, it gets set to messagelength, if messagelength is higher than 5, it gets set to 5.
     //console.log("GrabMessage Started!");
     networks = GrabChannels();
-    for (let item of networks) {
-        count++;
-    }
-    console.log(count);
     for (networkcounter = 0; networkcounter < networks.length; networkcounter++) {
         for (channelcounter = 0; channelcounter < networks[networkcounter].channels.length; channelcounter++) {
             //console.log("channelcounter: " + channelcounter);
@@ -51,7 +47,7 @@ function MessageHandler() {
                     //it should not detect same or old messages and play sound, since it checks for timestamp.
                     //console.log("START");
                     //console.warn("lengthchat: " + lengthchat);
-                    GrabMessage2(lengthchat);
+                    GrabMessage2(lengthchat, networks[networkcounter].channels[channelcounter]);
                     //console.log(messagestring[channelcounter]);
                     //messagestring = messagestring.map(element => element.toLowerCase()); // Turns messagestring into lowercase
                     CheckMessage();
@@ -92,7 +88,7 @@ function GrabMessage(channel) {
     return;
 }
 
-function GrabMessage2(lengthsec) {
+function GrabMessage2(lengthsec, channel) {
     // same as grabmessage, except this one accepts a length argument.
     // lengthsec is the message number.
     // meaning that if lengthsec is 5, it will get the 5th message. (i think)
@@ -100,8 +96,8 @@ function GrabMessage2(lengthsec) {
     //console.log("grabmessage lb");
     //messagelength[channelcounter] = InjectLengthScript(activechannels[channelcounter]);
     //console.log("messagelength lb: " + messagelength[channelcounter]);
-    messagestring[channelcounter] = InjectMessageScript(networks[networkcounter][channelcounter], lengthsec);
-    messagetime[channelcounter] = InjectTimeScript(networks[networkcounter][channelcounter], lengthsec);
+    messagestring[channelcounter] = InjectMessageScript(channel, lengthsec);
+    messagetime[channelcounter] = InjectTimeScript(channel, lengthsec);
     //console.timeEnd('grabmsg2');
     return;
 }
